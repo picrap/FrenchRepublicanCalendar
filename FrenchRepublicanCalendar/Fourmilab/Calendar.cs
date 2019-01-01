@@ -3,55 +3,13 @@
 namespace FrenchRepublicanCalendar.Fourmilab
 {
     // https://www.fourmilab.ch/documents/calendar/calendar.js
-    public class Calendar
+    // the file above is also embedded beside this one, in case their source code would change (so we could compare)
+
+    public static class Calendar
     {
         /*  EQUATIONOFTIME  --  Compute equation of time for a given moment.
                         Returns the equation of time as a fraction of
                         a day.  */
-
-        private const double J2000 = 2451545.0;              // Julian day of J2000 epoch
-        private const double JulianCentury = 36525.0;                // Days in Julian century
-        private const double JulianMillennium = (JulianCentury * 10);   // Days in Julian millennium
-
-        /*  FIXANGLE  --  Range reduce angle in degrees.  */
-
-        double fixangle(double a)
-        {
-            return a - 360.0 * (Math.Floor(a / 360.0));
-        }
-        double equationOfTime(double jd)
-        {
-            double alpha, deltaPsi, E, epsilon, L0, tau;
-
-            tau = (jd - J2000) / JulianMillennium;
-            //document.debug.log.value += "equationOfTime.  tau = " + tau + "\n";
-            L0 = 280.4664567 + (360007.6982779 * tau) +
-                 (0.03032028 * tau * tau) +
-                 ((tau * tau * tau) / 49931) +
-                 (-((tau * tau * tau * tau) / 15300)) +
-                 (-((tau * tau * tau * tau * tau) / 2000000));
-            //document.debug.log.value += "L0 = " + L0 + "\n";
-            L0 = fixangle(L0);
-            //document.debug.log.value += "L0 = " + L0 + "\n";
-            alpha = Astronomic.sunpos(jd)[10];
-            //document.debug.log.value += "alpha = " + alpha + "\n";
-            deltaPsi = Astronomic.nutation(jd)[0];
-            //document.debug.log.value += "deltaPsi = " + deltaPsi + "\n";
-            epsilon = Astronomic.obliqeq(jd) + Astronomic.nutation(jd)[1];
-            //document.debug.log.value += "epsilon = " + epsilon + "\n";
-            E = L0 + (-0.0057183) + (-alpha) + (deltaPsi * Astronomic.dcos(epsilon));
-            //document.debug.log.value += "E = " + E + "\n";
-            E = E - 20.0 * (Math.Floor(E / 20.0));
-            //document.debug.log.value += "Efixed = " + E + "\n";
-            E = E / (24 * 60);
-            //document.debug.log.value += "Eday = " + E + "\n";
-
-            return E;
-        }
-
-        /*  EQUINOXE_A_PARIS  --  Determine Julian day and fraction of the
-                                  September equinox at the Paris meridian in
-                                  a given Gregorian year.  */
 
         public static double equinoxe_a_paris(double year)
         {

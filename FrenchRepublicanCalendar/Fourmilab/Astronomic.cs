@@ -2,9 +2,9 @@
 namespace FrenchRepublicanCalendar.Fourmilab
 {
     using System;
-    using System.Net.NetworkInformation;
 
     // https://www.fourmilab.ch/documents/calendar/astro.js
+    // the file above is also embedded beside this one, in case their source code would change (so we could compare)
 
     public static class Astronomic
     {
