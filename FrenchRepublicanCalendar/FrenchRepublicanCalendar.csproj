@@ -2,6 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Version>0.1</Version>
+    <Authors>picrap</Authors>
+    <PackageLicenseUrl>https://raw.githubusercontent.com/picrap/FrenchRepublicanCalendar/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/picrap/FrenchRepublicanCalendar</PackageProjectUrl>
+    <RepositoryType>https://github.com/picrap/FrenchRepublicanCalendar.git</RepositoryType>
+    <PackageTags>french republican calendar</PackageTags>
+    <Description>Provides date time manipulation for French republican calendar.</Description>
   </PropertyGroup>
 
 </Project>
