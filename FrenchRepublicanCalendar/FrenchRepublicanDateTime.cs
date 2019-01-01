@@ -13,14 +13,17 @@ namespace FrenchRepublicanCalendar
     using System.Text;
     using Utility;
 
-    public class FrenchRepublicanDateTime : IFormattable
+    public struct FrenchRepublicanDateTime : IFormattable
     {
         public FrenchRepublicanDayOfDecade? DayOfDecade => Month != FrenchRepublicanMonth.SansColuttides ? (FrenchRepublicanDayOfDecade?)(DayOfMonth % 10) : null;
         public FrenchRepublicanDayOfSansCulottide? DayOfSansCulottide => Month == FrenchRepublicanMonth.SansColuttides ? (FrenchRepublicanDayOfSansCulottide?)DayOfMonth : null;
-        public int DayOfMonth { get; }
+        public byte DayOfMonth { get; }
         public int Decade => DayOfMonth / 10 + 1;
-        public FrenchRepublicanMonth Month { get; }
-        public int Year { get; }
+
+        private readonly byte _month;
+        public FrenchRepublicanMonth Month => (FrenchRepublicanMonth)_month;
+
+        public short Year { get; }
 
         public int Hour => DateTime.Hour;
         public int Minute => DateTime.Minute;
@@ -34,28 +37,28 @@ namespace FrenchRepublicanCalendar
         {
             var jd = dateTime.ToJulianDate();
             var d = Fourmilab.Calendar.jd_to_french_revolutionary(jd);
-            Year = (int)d[0];
-            Month = (FrenchRepublicanMonth)d[1];
-            DayOfMonth = (int)(d[3] + (d[2] - 1) * 10);
+            Year = (short)d[0];
+            _month = (byte)d[1];
+            DayOfMonth = (byte)(d[3] + (d[2] - 1) * 10);
             DateTime = dateTime;
         }
 
         public FrenchRepublicanDateTime(int year, FrenchRepublicanMonth month, int dayOfMonth,
             int hour = 0, int minute = 0, int second = 0, int millisecond = 0, DateTimeKind kind = DateTimeKind.Unspecified)
         {
-            Year = year;
-            Month = month;
-            DayOfMonth = dayOfMonth;
-            var jd = Fourmilab.Calendar.french_revolutionary_to_jd(year, (int)month, Decade, (int)(DayOfMonth % 10));
+            Year = (short)year;
+            _month = (byte)month;
+            DayOfMonth = (byte)dayOfMonth;
+            var jd = Fourmilab.Calendar.french_revolutionary_to_jd(year, (int)month, dayOfMonth / 10 + 1, DayOfMonth % 10);
             DateTime = Add(DateTimeUtility.FromJulianDate(jd), hour, minute, second, millisecond, kind);
         }
 
         public FrenchRepublicanDateTime(int year, FrenchRepublicanMonth month, int decade, FrenchRepublicanDayOfDecade dayOfDecade,
             int hour = 0, int minute = 0, int second = 0, int millisecond = 0, DateTimeKind kind = DateTimeKind.Unspecified)
         {
-            Year = year;
-            Month = month;
-            DayOfMonth = (int)dayOfDecade + (decade - 1) * 10;
+            Year = (short)year;
+            _month = (byte)month;
+            DayOfMonth = (byte)((int)dayOfDecade + (decade - 1) * 10);
             var jd = Fourmilab.Calendar.french_revolutionary_to_jd(year, (int)month, decade, (int)dayOfDecade);
             DateTime = Add(DateTimeUtility.FromJulianDate(jd), hour, minute, second, millisecond, kind);
         }
@@ -63,9 +66,9 @@ namespace FrenchRepublicanCalendar
         public FrenchRepublicanDateTime(int year, FrenchRepublicanMonth month, FrenchRepublicanDayOfSansCulottide dayOfSansCulottide,
             int hour = 0, int minute = 0, int second = 0, int millisecond = 0, DateTimeKind kind = DateTimeKind.Unspecified)
         {
-            Year = year;
-            Month = month;
-            DayOfMonth = (int)dayOfSansCulottide;
+            Year = (short)year;
+            _month = (byte)month;
+            DayOfMonth = (byte)dayOfSansCulottide;
             var jd = Fourmilab.Calendar.french_revolutionary_to_jd(year, 13, 0, (int)dayOfSansCulottide);
             DateTime = Add(DateTimeUtility.FromJulianDate(jd), hour, minute, second, millisecond, kind);
         }
