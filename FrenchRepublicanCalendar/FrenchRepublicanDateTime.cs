@@ -11,6 +11,7 @@ namespace FrenchRepublicanCalendar
     using System;
     using System.Globalization;
     using System.Text;
+    using Utility;
 
     public class FrenchRepublicanDateTime : IFormattable
     {
@@ -55,7 +56,8 @@ namespace FrenchRepublicanCalendar
             DateTime = dateTime;
         }
 
-        public FrenchRepublicanDateTime(int year, FrenchRepublicanMonth month, int dayOfMonth)
+        public FrenchRepublicanDateTime(int year, FrenchRepublicanMonth month, int dayOfMonth,
+            int hour = 0, int minute = 0, int second = 0, int millisecond = 0, DateTimeKind kind = DateTimeKind.Unspecified)
         {
             Year = year;
             Month = month;
@@ -63,7 +65,7 @@ namespace FrenchRepublicanCalendar
             if (month == FrenchRepublicanMonth.SansColuttides)
             {
                 DayOfSansCulottide = (FrenchRepublicanDayOfSansCulottide?)dayOfMonth;
-                jd = Fourmilab.Calendar.french_revolutionary_to_jd(year, (int)month, 0, (int)DayOfSansCulottide.Value);
+                jd = Fourmilab.Calendar.french_revolutionary_to_jd(year, (int)month, 1, (int)DayOfSansCulottide.Value);
             }
             else
             {
@@ -71,26 +73,34 @@ namespace FrenchRepublicanCalendar
                 DayOfDecade = (FrenchRepublicanDayOfDecade)(dayOfMonth % 10);
                 jd = Fourmilab.Calendar.french_revolutionary_to_jd(year, (int)month, Decade.Value, (int)DayOfDecade.Value);
             }
-            DateTime = DateTimeUtility.FromJulianDate(jd);
+            DateTime = Add(DateTimeUtility.FromJulianDate(jd), hour, minute, second, millisecond, kind);
         }
 
-        public FrenchRepublicanDateTime(int year, FrenchRepublicanMonth month, int decade, FrenchRepublicanDayOfDecade dayOfDecade)
+        public FrenchRepublicanDateTime(int year, FrenchRepublicanMonth month, int decade, FrenchRepublicanDayOfDecade dayOfDecade,
+            int hour = 0, int minute = 0, int second = 0, int millisecond = 0, DateTimeKind kind = DateTimeKind.Unspecified)
         {
             Year = year;
             Month = month;
             Decade = decade;
             DayOfDecade = dayOfDecade;
             var jd = Fourmilab.Calendar.french_revolutionary_to_jd(year, (int)month, decade, (int)dayOfDecade);
-            DateTime = DateTimeUtility.FromJulianDate(jd);
+            DateTime = Add(DateTimeUtility.FromJulianDate(jd), hour, minute, second, millisecond, kind);
         }
 
-        public FrenchRepublicanDateTime(int year, FrenchRepublicanMonth month, FrenchRepublicanDayOfSansCulottide dayOfSansCulottide)
+        public FrenchRepublicanDateTime(int year, FrenchRepublicanMonth month, FrenchRepublicanDayOfSansCulottide dayOfSansCulottide,
+            int hour = 0, int minute = 0, int second = 0, int millisecond = 0, DateTimeKind kind = DateTimeKind.Unspecified)
         {
             Year = year;
             Month = month;
             DayOfSansCulottide = dayOfSansCulottide;
             var jd = Fourmilab.Calendar.french_revolutionary_to_jd(year, 13, 0, (int)dayOfSansCulottide);
-            DateTime = DateTimeUtility.FromJulianDate(jd);
+            DateTime = Add(DateTimeUtility.FromJulianDate(jd), hour, minute, second, millisecond, kind);
+        }
+
+        private static DateTime Add(DateTime dateTime, int hour = 0, int minute = 0, int second = 0, int millisecond = 0,
+            DateTimeKind kind = DateTimeKind.Unspecified)
+        {
+            return dateTime + new TimeSpan(hour, minute, second, millisecond);
         }
 
         public override string ToString() => ToString("G", CultureInfo.CurrentCulture);
@@ -143,6 +153,33 @@ namespace FrenchRepublicanCalendar
             }
 
             return false;
+        }
+
+        public FrenchRepublicanDateTime AddDays(int days)
+        {
+            return new FrenchRepublicanDateTime(DateTime + TimeSpan.FromDays(days));
+        }
+
+        public FrenchRepublicanDateTime AddMonths(int months)
+        {
+            var newMonth = (int)(Month - 1) + months;
+            var newYear = Year + newMonth / 13;
+            newMonth %= 13;
+            var maxDayOfMonth = 30;
+            if (newMonth == 12) // sans-culottides
+                maxDayOfMonth = IsLeap(newYear) ? 6 : 5;
+
+            var newDayOfMonth = Math.Min(DayOfMonth, maxDayOfMonth);
+            return new FrenchRepublicanDateTime(newYear, (FrenchRepublicanMonth)(newMonth + 1), newDayOfMonth, Hour, Minute, Second, Millisecond, Kind);
+        }
+
+        public static bool IsLeap(int year)
+        {
+            // this is not something I'm proud of
+            var lastDay = new FrenchRepublicanDateTime(year, FrenchRepublicanMonth.SansColuttides, 6);
+            var dateTime = lastDay.DateTime;
+            var frDateTime = new FrenchRepublicanDateTime(dateTime);
+            return frDateTime.Year == year;
         }
     }
 }

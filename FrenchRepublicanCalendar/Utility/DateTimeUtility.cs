@@ -1,5 +1,5 @@
 ﻿
-namespace FrenchRepublicanCalendar
+namespace FrenchRepublicanCalendar.Utility
 {
     using System;
 
