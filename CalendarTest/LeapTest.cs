@@ -9,27 +9,27 @@
         [TestMethod]
         public void I_IsNotLeap()
         {
-            Assert.IsFalse(FrenchRepublicanDateTime.IsLeap(1));
+            Assert.IsFalse(FrenchRepublicanDateTime.IsLeapYear(1));
         }
         [TestMethod]
         public void II_IsNotLeap()
         {
-            Assert.IsFalse(FrenchRepublicanDateTime.IsLeap(2));
+            Assert.IsFalse(FrenchRepublicanDateTime.IsLeapYear(2));
         }
         [TestMethod]
         public void III_IsLeap()
         {
-            Assert.IsTrue(FrenchRepublicanDateTime.IsLeap(3));
+            Assert.IsTrue(FrenchRepublicanDateTime.IsLeapYear(3));
         }
         [TestMethod]
         public void VII_IsLeap()
         {
-            Assert.IsTrue(FrenchRepublicanDateTime.IsLeap(7));
+            Assert.IsTrue(FrenchRepublicanDateTime.IsLeapYear(7));
         }
         [TestMethod]
         public void XI_IsLeap()
         {
-            Assert.IsTrue(FrenchRepublicanDateTime.IsLeap(11));
+            Assert.IsTrue(FrenchRepublicanDateTime.IsLeapYear(11));
         }
     }
 }

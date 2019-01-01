@@ -24,22 +24,26 @@ namespace FrenchRepublicanCalendar
 
         public override DayOfWeek GetDayOfWeek(DateTime time)
         {
-            throw new NotImplementedException();
+            return (DayOfWeek)(new FrenchRepublicanDateTime(time).DayOfMonth % 10); // WTF? The calendar want a day of 7-days week?
+            // this won't make sense at all
         }
 
         public override int GetDayOfYear(DateTime time)
         {
-            throw new NotImplementedException();
+            var frenchRepublicanDateTime = new FrenchRepublicanDateTime(time);
+            return ((int)frenchRepublicanDateTime.Month - 1) * 30 + frenchRepublicanDateTime.DayOfMonth;
         }
 
         public override int GetDaysInMonth(int year, int month, int era)
         {
-            throw new NotImplementedException();
+            if (month == 13)
+                return IsLeapYear(year) ? 6 : 5;
+            return 30; // this is why I love this calendar
         }
 
         public override int GetDaysInYear(int year, int era)
         {
-            throw new NotImplementedException();
+            return IsLeapYear(year) ? 366 : 365;
         }
 
         public override int GetEra(DateTime time)
@@ -49,37 +53,37 @@ namespace FrenchRepublicanCalendar
 
         public override int GetMonth(DateTime time)
         {
-            return (int) new FrenchRepublicanDateTime(time).Month;
+            return (int)new FrenchRepublicanDateTime(time).Month;
         }
 
         public override int GetMonthsInYear(int year, int era)
         {
-            throw new NotImplementedException();
+            return 13;
         }
 
         public override int GetYear(DateTime time)
         {
-            throw new NotImplementedException();
+            return new FrenchRepublicanDateTime(time).Year;
         }
 
         public override bool IsLeapDay(int year, int month, int day, int era)
         {
-            throw new NotImplementedException();
+            return day == 6 && IsLeapMonth(year, month, era);
         }
 
         public override bool IsLeapMonth(int year, int month, int era)
         {
-            throw new NotImplementedException();
+            return month == 13 && IsLeapYear(year, era);
         }
 
         public override bool IsLeapYear(int year, int era)
         {
-            throw new NotImplementedException();
+            return FrenchRepublicanDateTime.IsLeapYear(year);
         }
 
         public override DateTime ToDateTime(int year, int month, int day, int hour, int minute, int second, int millisecond, int era)
         {
-            throw new NotImplementedException();
+            return new FrenchRepublicanDateTime(year, (FrenchRepublicanMonth)month, day, hour, minute, second, millisecond).DateTime;
         }
     }
 }

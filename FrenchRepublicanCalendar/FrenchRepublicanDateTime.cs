@@ -143,13 +143,13 @@ namespace FrenchRepublicanCalendar
             newMonth %= 13;
             var maxDayOfMonth = 30;
             if (newMonth == 12) // sans-culottides
-                maxDayOfMonth = IsLeap(newYear) ? 6 : 5;
+                maxDayOfMonth = IsLeapYear(newYear) ? 6 : 5;
 
             var newDayOfMonth = Math.Min(DayOfMonth, maxDayOfMonth);
             return new FrenchRepublicanDateTime(newYear, (FrenchRepublicanMonth)(newMonth + 1), newDayOfMonth, Hour, Minute, Second, Millisecond, Kind);
         }
 
-        public static bool IsLeap(int year)
+        public static bool IsLeapYear(int year)
         {
             // this is not something I'm proud of
             var lastDay = new FrenchRepublicanDateTime(year, FrenchRepublicanMonth.SansColuttides, 6);
