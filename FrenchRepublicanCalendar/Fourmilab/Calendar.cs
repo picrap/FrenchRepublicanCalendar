@@ -161,7 +161,7 @@ namespace FrenchRepublicanCalendar.Fourmilab
         public static double[] jd_to_gregorian(double jd)
         {
             double wjd, depoch, quadricent, dqc, cent, dcent, quad, dquad,
-                yindex, dyindex, year, yearday, leapadj;
+                yindex, year, yearday, leapadj;
 
             wjd = Math.Floor(jd - 0.5) + 0.5;
             depoch = wjd - GREGORIAN_EPOCH;
