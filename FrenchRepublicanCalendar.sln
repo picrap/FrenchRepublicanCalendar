@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28407.52
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrenchRepublicanCalendar", "FrenchRepublicanCalendar\FrenchRepublicanCalendar.csproj", "{31339075-D852-4050-B0AB-22099351CC5A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CalendarTest", "CalendarTest\CalendarTest.csproj", "{2D2220AC-59BC-4CEC-9FC1-A31F7182C3A6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{31339075-D852-4050-B0AB-22099351CC5A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{31339075-D852-4050-B0AB-22099351CC5A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{31339075-D852-4050-B0AB-22099351CC5A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{31339075-D852-4050-B0AB-22099351CC5A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D2220AC-59BC-4CEC-9FC1-A31F7182C3A6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D2220AC-59BC-4CEC-9FC1-A31F7182C3A6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D2220AC-59BC-4CEC-9FC1-A31F7182C3A6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D2220AC-59BC-4CEC-9FC1-A31F7182C3A6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5ADEA6BB-3BB8-47B5-8AE1-2BA676BBEEA8}
+	EndGlobalSection
+EndGlobal
