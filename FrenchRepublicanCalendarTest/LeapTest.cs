@@ -1,4 +1,8 @@
-﻿namespace FrenchRepublicanCalendarTest
+﻿// It's the French republican calendar!
+// https://github.com/picrap/FrenchRepublicanCalendar
+// Released under MIT license
+
+namespace FrenchRepublicanCalendarTest
 {
     using FrenchRepublicanCalendar;
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -11,21 +15,25 @@
         {
             Assert.IsFalse(FrenchRepublicanDateTime.IsLeapYear(1));
         }
+
         [TestMethod]
         public void II_IsNotLeap()
         {
             Assert.IsFalse(FrenchRepublicanDateTime.IsLeapYear(2));
         }
+
         [TestMethod]
         public void III_IsLeap()
         {
             Assert.IsTrue(FrenchRepublicanDateTime.IsLeapYear(3));
         }
+
         [TestMethod]
         public void VII_IsLeap()
         {
             Assert.IsTrue(FrenchRepublicanDateTime.IsLeapYear(7));
         }
+
         [TestMethod]
         public void XI_IsLeap()
         {

@@ -1,5 +1,7 @@
-﻿
-// ReSharper disable InconsistentNaming
+﻿// It's the French republican calendar!
+// https://github.com/picrap/FrenchRepublicanCalendar
+// Released under MIT license
+
 #pragma warning disable CS1591
 
 namespace FrenchRepublicanCalendar.Fourmilab
@@ -21,11 +23,11 @@ namespace FrenchRepublicanCalendar.Fourmilab
         */
 
         //  Frequently-used constants
-        public const double J2000 = 2451545.0;            // Julian day of J2000 epoch
-        public const double JulianCentury = 36525.0;               // Days in Julian century
-        public const double JulianMillennium = (JulianCentury * 10);   // Days in Julian millennium
-        public const double AstronomicalUnit = 149597870.0;           // Astronomical unit in kilometres
-        public const double TropicalYear = 365.24219878;           // Mean solar tropical year
+        public const double J2000 = 2451545.0; // Julian day of J2000 epoch
+        public const double JulianCentury = 36525.0; // Days in Julian century
+        public const double JulianMillennium = (JulianCentury * 10); // Days in Julian millennium
+        public const double AstronomicalUnit = 149597870.0; // Astronomical unit in kilometres
+        public const double TropicalYear = 365.24219878; // Mean solar tropical year
 
         /*  ASTOR  --  Arc-seconds to radians.  */
 
@@ -97,18 +99,23 @@ namespace FrenchRepublicanCalendar.Fourmilab
         {
             double ij;
 
-            j += 0.5;                 /* Astronomical to civil */
+            j += 0.5; /* Astronomical to civil */
             ij = ((j - Math.Floor(j)) * 86400.0) + 0.5;
-            return new[] {
-                             Math.Floor(ij / 3600),
-                             Math.Floor((ij / 60) % 60),
-                             Math.Floor(ij % 60)};
+            return new[]
+            {
+                Math.Floor(ij / 3600),
+                Math.Floor((ij / 60) % 60),
+                Math.Floor(ij % 60)
+            };
         }
 
         //  JWDAY  --  Calculate day of week from Julian day
 
-        public static readonly string[] Weekdays = new[]{"Sunday", "Monday", "Tuesday", "Wednesday",
-                                  "Thursday", "Friday", "Saturday"};
+        public static readonly string[] Weekdays = new[]
+        {
+            "Sunday", "Monday", "Tuesday", "Wednesday",
+            "Thursday", "Friday", "Saturday"
+        };
 
         public static double jwday(double j)
         {
@@ -126,17 +133,18 @@ namespace FrenchRepublicanCalendar.Fourmilab
                          simply return the J2000 value of the obliquity, which
                          happens to be almost precisely the mean.  */
 
-        public static double[] oterms = new double[] {
-                -4680.93,
-                   -1.55,
-                 1999.25,
-                  -51.38,
-                 -249.67,
-                  -39.05,
-                    7.12,
-                   27.87,
-                    5.79,
-                    2.45
+        public static double[] oterms = new double[]
+        {
+            -4680.93,
+            -1.55,
+            1999.25,
+            -51.38,
+            -249.67,
+            -39.05,
+            7.12,
+            27.87,
+            5.79,
+            2.45
         };
 
         public static double obliqeq(double jd)
@@ -155,6 +163,7 @@ namespace FrenchRepublicanCalendar.Fourmilab
                     v *= u;
                 }
             }
+
             return eps;
         }
 
@@ -162,136 +171,138 @@ namespace FrenchRepublicanCalendar.Fourmilab
            obliquity (delta \Epsilon) as given in table 21.A of
            Meeus, "Astronomical Algorithms", first edition. */
 
-        public static double[] nutArgMult = new double[] {
-             0, 0, 0, 0, 1,
+        public static double[] nutArgMult = new double[]
+        {
+            0, 0, 0, 0, 1,
             -2, 0, 0, 2, 2,
-             0, 0, 0, 2, 2,
-             0, 0, 0, 0, 2,
-             0, 1, 0, 0, 0,
-             0, 0, 1, 0, 0,
+            0, 0, 0, 2, 2,
+            0, 0, 0, 0, 2,
+            0, 1, 0, 0, 0,
+            0, 0, 1, 0, 0,
             -2, 1, 0, 2, 2,
-             0, 0, 0, 2, 1,
-             0, 0, 1, 2, 2,
+            0, 0, 0, 2, 1,
+            0, 0, 1, 2, 2,
             -2, -1, 0, 2, 2,
             -2, 0, 1, 0, 0,
             -2, 0, 0, 2, 1,
-             0, 0, -1, 2, 2,
-             2, 0, 0, 0, 0,
-             0, 0, 1, 0, 1,
-             2, 0, -1, 2, 2,
-             0, 0, -1, 0, 1,
-             0, 0, 1, 2, 1,
+            0, 0, -1, 2, 2,
+            2, 0, 0, 0, 0,
+            0, 0, 1, 0, 1,
+            2, 0, -1, 2, 2,
+            0, 0, -1, 0, 1,
+            0, 0, 1, 2, 1,
             -2, 0, 2, 0, 0,
-             0, 0, -2, 2, 1,
-             2, 0, 0, 2, 2,
-             0, 0, 2, 2, 2,
-             0, 0, 2, 0, 0,
+            0, 0, -2, 2, 1,
+            2, 0, 0, 2, 2,
+            0, 0, 2, 2, 2,
+            0, 0, 2, 0, 0,
             -2, 0, 1, 2, 2,
-             0, 0, 0, 2, 0,
+            0, 0, 0, 2, 0,
             -2, 0, 0, 2, 0,
-             0, 0, -1, 2, 1,
-             0, 2, 0, 0, 0,
-             2, 0, -1, 0, 1,
+            0, 0, -1, 2, 1,
+            0, 2, 0, 0, 0,
+            2, 0, -1, 0, 1,
             -2, 2, 0, 2, 2,
-             0, 1, 0, 0, 1,
+            0, 1, 0, 0, 1,
             -2, 0, 1, 0, 1,
-             0, -1, 0, 0, 1,
-             0, 0, 2, -2, 0,
-             2, 0, -1, 2, 1,
-             2, 0, 1, 2, 2,
-             0, 1, 0, 2, 2,
+            0, -1, 0, 0, 1,
+            0, 0, 2, -2, 0,
+            2, 0, -1, 2, 1,
+            2, 0, 1, 2, 2,
+            0, 1, 0, 2, 2,
             -2, 1, 1, 0, 0,
-             0, -1, 0, 2, 2,
-             2, 0, 0, 2, 1,
-             2, 0, 1, 0, 0,
+            0, -1, 0, 2, 2,
+            2, 0, 0, 2, 1,
+            2, 0, 1, 0, 0,
             -2, 0, 2, 2, 2,
             -2, 0, 1, 2, 1,
-             2, 0, -2, 0, 1,
-             2, 0, 0, 0, 1,
-             0, -1, 1, 0, 0,
+            2, 0, -2, 0, 1,
+            2, 0, 0, 0, 1,
+            0, -1, 1, 0, 0,
             -2, -1, 0, 2, 1,
             -2, 0, 0, 0, 1,
-             0, 0, 2, 2, 1,
+            0, 0, 2, 2, 1,
             -2, 0, 2, 0, 1,
             -2, 1, 0, 2, 1,
-             0, 0, 1, -2, 0,
+            0, 0, 1, -2, 0,
             -1, 0, 1, 0, 0,
             -2, 1, 0, 0, 0,
-             1, 0, 0, 0, 0,
-             0, 0, 1, 2, 0,
+            1, 0, 0, 0, 0,
+            0, 0, 1, 2, 0,
             -1, -1, 1, 0, 0,
-             0, 1, 1, 0, 0,
-             0, -1, 1, 2, 2,
-             2, -1, -1, 2, 2,
-             0, 0, -2, 2, 2,
-             0, 0, 3, 2, 2,
-             2, -1, 0, 2, 2
+            0, 1, 1, 0, 0,
+            0, -1, 1, 2, 2,
+            2, -1, -1, 2, 2,
+            0, 0, -2, 2, 2,
+            0, 0, 3, 2, 2,
+            2, -1, 0, 2, 2
         };
 
-        public static double[] nutArgCoeff = new double[] {
-            -171996, -1742, 92095, 89,          /*  0,  0,  0,  0,  1 */
-             -13187, -16, 5736, -31,          /* -2,  0,  0,  2,  2 */
-              -2274, -2, 977, -5,          /*  0,  0,  0,  2,  2 */
-               2062, 2, -895, 5,          /*  0,  0,  0,  0,  2 */
-               1426, -34, 54, -1,          /*  0,  1,  0,  0,  0 */
-                712, 1, -7, 0,          /*  0,  0,  1,  0,  0 */
-               -517, 12, 224, -6,          /* -2,  1,  0,  2,  2 */
-               -386, -4, 200, 0,          /*  0,  0,  0,  2,  1 */
-               -301, 0, 129, -1,          /*  0,  0,  1,  2,  2 */
-                217, -5, -95, 3,          /* -2, -1,  0,  2,  2 */
-               -158, 0, 0, 0,          /* -2,  0,  1,  0,  0 */
-                129, 1, -70, 0,          /* -2,  0,  0,  2,  1 */
-                123, 0, -53, 0,          /*  0,  0, -1,  2,  2 */
-                 63, 0, 0, 0,          /*  2,  0,  0,  0,  0 */
-                 63, 1, -33, 0,          /*  0,  0,  1,  0,  1 */
-                -59, 0, 26, 0,          /*  2,  0, -1,  2,  2 */
-                -58, -1, 32, 0,          /*  0,  0, -1,  0,  1 */
-                -51, 0, 27, 0,          /*  0,  0,  1,  2,  1 */
-                 48, 0, 0, 0,          /* -2,  0,  2,  0,  0 */
-                 46, 0, -24, 0,          /*  0,  0, -2,  2,  1 */
-                -38, 0, 16, 0,          /*  2,  0,  0,  2,  2 */
-                -31, 0, 13, 0,          /*  0,  0,  2,  2,  2 */
-                 29, 0, 0, 0,          /*  0,  0,  2,  0,  0 */
-                 29, 0, -12, 0,          /* -2,  0,  1,  2,  2 */
-                 26, 0, 0, 0,          /*  0,  0,  0,  2,  0 */
-                -22, 0, 0, 0,          /* -2,  0,  0,  2,  0 */
-                 21, 0, -10, 0,          /*  0,  0, -1,  2,  1 */
-                 17, -1, 0, 0,          /*  0,  2,  0,  0,  0 */
-                 16, 0, -8, 0,          /*  2,  0, -1,  0,  1 */
-                -16, 1, 7, 0,          /* -2,  2,  0,  2,  2 */
-                -15, 0, 9, 0,          /*  0,  1,  0,  0,  1 */
-                -13, 0, 7, 0,          /* -2,  0,  1,  0,  1 */
-                -12, 0, 6, 0,          /*  0, -1,  0,  0,  1 */
-                 11, 0, 0, 0,          /*  0,  0,  2, -2,  0 */
-                -10, 0, 5, 0,          /*  2,  0, -1,  2,  1 */
-                 -8, 0, 3, 0,          /*  2,  0,  1,  2,  2 */
-                  7, 0, -3, 0,          /*  0,  1,  0,  2,  2 */
-                 -7, 0, 0, 0,          /* -2,  1,  1,  0,  0 */
-                 -7, 0, 3, 0,          /*  0, -1,  0,  2,  2 */
-                 -7, 0, 3, 0,          /*  2,  0,  0,  2,  1 */
-                  6, 0, 0, 0,          /*  2,  0,  1,  0,  0 */
-                  6, 0, -3, 0,          /* -2,  0,  2,  2,  2 */
-                  6, 0, -3, 0,          /* -2,  0,  1,  2,  1 */
-                 -6, 0, 3, 0,          /*  2,  0, -2,  0,  1 */
-                 -6, 0, 3, 0,          /*  2,  0,  0,  0,  1 */
-                  5, 0, 0, 0,          /*  0, -1,  1,  0,  0 */
-                 -5, 0, 3, 0,          /* -2, -1,  0,  2,  1 */
-                 -5, 0, 3, 0,          /* -2,  0,  0,  0,  1 */
-                 -5, 0, 3, 0,          /*  0,  0,  2,  2,  1 */
-                  4, 0, 0, 0,          /* -2,  0,  2,  0,  1 */
-                  4, 0, 0, 0,          /* -2,  1,  0,  2,  1 */
-                  4, 0, 0, 0,          /*  0,  0,  1, -2,  0 */
-                 -4, 0, 0, 0,          /* -1,  0,  1,  0,  0 */
-                 -4, 0, 0, 0,          /* -2,  1,  0,  0,  0 */
-                 -4, 0, 0, 0,          /*  1,  0,  0,  0,  0 */
-                  3, 0, 0, 0,          /*  0,  0,  1,  2,  0 */
-                 -3, 0, 0, 0,          /* -1, -1,  1,  0,  0 */
-                 -3, 0, 0, 0,          /*  0,  1,  1,  0,  0 */
-                 -3, 0, 0, 0,          /*  0, -1,  1,  2,  2 */
-                 -3, 0, 0, 0,          /*  2, -1, -1,  2,  2 */
-                 -3, 0, 0, 0,          /*  0,  0, -2,  2,  2 */
-                 -3, 0, 0, 0,          /*  0,  0,  3,  2,  2 */
-                 -3, 0, 0, 0           /*  2, -1,  0,  2,  2 */
+        public static double[] nutArgCoeff = new double[]
+        {
+            -171996, -1742, 92095, 89, /*  0,  0,  0,  0,  1 */
+            -13187, -16, 5736, -31, /* -2,  0,  0,  2,  2 */
+            -2274, -2, 977, -5, /*  0,  0,  0,  2,  2 */
+            2062, 2, -895, 5, /*  0,  0,  0,  0,  2 */
+            1426, -34, 54, -1, /*  0,  1,  0,  0,  0 */
+            712, 1, -7, 0, /*  0,  0,  1,  0,  0 */
+            -517, 12, 224, -6, /* -2,  1,  0,  2,  2 */
+            -386, -4, 200, 0, /*  0,  0,  0,  2,  1 */
+            -301, 0, 129, -1, /*  0,  0,  1,  2,  2 */
+            217, -5, -95, 3, /* -2, -1,  0,  2,  2 */
+            -158, 0, 0, 0, /* -2,  0,  1,  0,  0 */
+            129, 1, -70, 0, /* -2,  0,  0,  2,  1 */
+            123, 0, -53, 0, /*  0,  0, -1,  2,  2 */
+            63, 0, 0, 0, /*  2,  0,  0,  0,  0 */
+            63, 1, -33, 0, /*  0,  0,  1,  0,  1 */
+            -59, 0, 26, 0, /*  2,  0, -1,  2,  2 */
+            -58, -1, 32, 0, /*  0,  0, -1,  0,  1 */
+            -51, 0, 27, 0, /*  0,  0,  1,  2,  1 */
+            48, 0, 0, 0, /* -2,  0,  2,  0,  0 */
+            46, 0, -24, 0, /*  0,  0, -2,  2,  1 */
+            -38, 0, 16, 0, /*  2,  0,  0,  2,  2 */
+            -31, 0, 13, 0, /*  0,  0,  2,  2,  2 */
+            29, 0, 0, 0, /*  0,  0,  2,  0,  0 */
+            29, 0, -12, 0, /* -2,  0,  1,  2,  2 */
+            26, 0, 0, 0, /*  0,  0,  0,  2,  0 */
+            -22, 0, 0, 0, /* -2,  0,  0,  2,  0 */
+            21, 0, -10, 0, /*  0,  0, -1,  2,  1 */
+            17, -1, 0, 0, /*  0,  2,  0,  0,  0 */
+            16, 0, -8, 0, /*  2,  0, -1,  0,  1 */
+            -16, 1, 7, 0, /* -2,  2,  0,  2,  2 */
+            -15, 0, 9, 0, /*  0,  1,  0,  0,  1 */
+            -13, 0, 7, 0, /* -2,  0,  1,  0,  1 */
+            -12, 0, 6, 0, /*  0, -1,  0,  0,  1 */
+            11, 0, 0, 0, /*  0,  0,  2, -2,  0 */
+            -10, 0, 5, 0, /*  2,  0, -1,  2,  1 */
+            -8, 0, 3, 0, /*  2,  0,  1,  2,  2 */
+            7, 0, -3, 0, /*  0,  1,  0,  2,  2 */
+            -7, 0, 0, 0, /* -2,  1,  1,  0,  0 */
+            -7, 0, 3, 0, /*  0, -1,  0,  2,  2 */
+            -7, 0, 3, 0, /*  2,  0,  0,  2,  1 */
+            6, 0, 0, 0, /*  2,  0,  1,  0,  0 */
+            6, 0, -3, 0, /* -2,  0,  2,  2,  2 */
+            6, 0, -3, 0, /* -2,  0,  1,  2,  1 */
+            -6, 0, 3, 0, /*  2,  0, -2,  0,  1 */
+            -6, 0, 3, 0, /*  2,  0,  0,  0,  1 */
+            5, 0, 0, 0, /*  0, -1,  1,  0,  0 */
+            -5, 0, 3, 0, /* -2, -1,  0,  2,  1 */
+            -5, 0, 3, 0, /* -2,  0,  0,  0,  1 */
+            -5, 0, 3, 0, /*  0,  0,  2,  2,  1 */
+            4, 0, 0, 0, /* -2,  0,  2,  0,  1 */
+            4, 0, 0, 0, /* -2,  1,  0,  2,  1 */
+            4, 0, 0, 0, /*  0,  0,  1, -2,  0 */
+            -4, 0, 0, 0, /* -1,  0,  1,  0,  0 */
+            -4, 0, 0, 0, /* -2,  1,  0,  0,  0 */
+            -4, 0, 0, 0, /*  1,  0,  0,  0,  0 */
+            3, 0, 0, 0, /*  0,  0,  1,  2,  0 */
+            -3, 0, 0, 0, /* -1, -1,  1,  0,  0 */
+            -3, 0, 0, 0, /*  0,  1,  1,  0,  0 */
+            -3, 0, 0, 0, /*  0, -1,  1,  2,  2 */
+            -3, 0, 0, 0, /*  2, -1, -1,  2,  2 */
+            -3, 0, 0, 0, /*  0,  0, -2,  2,  2 */
+            -3, 0, 0, 0, /*  0,  0,  3,  2,  2 */
+            -3, 0, 0, 0 /*  2, -1,  0,  2,  2 */
         };
 
         /*  NUTATION  --  Calculate the nutation in longitude, deltaPsi, and
@@ -301,9 +312,12 @@ namespace FrenchRepublicanCalendar.Fourmilab
 
         public static double[] nutation(double jd)
         {
-            double deltaPsi, deltaEpsilon,
+            double deltaPsi,
+                deltaEpsilon,
                 t = (jd - 2451545.0) / 36525.0,
-                t2, t3, to10;
+                t2,
+                t3,
+                to10;
             var ta = new double[5];
             double dp = 0, de = 0, ang;
 
@@ -346,6 +360,7 @@ namespace FrenchRepublicanCalendar.Fourmilab
                         ang += nutArgMult[(i * 5) + j] * ta[j];
                     }
                 }
+
                 dp += (nutArgCoeff[(i * 4) + 0] + nutArgCoeff[(i * 4) + 1] * to10) * Math.Sin(ang);
                 de += (nutArgCoeff[(i * 4) + 2] + nutArgCoeff[(i * 4) + 3] * to10) * Math.Cos(ang);
             }
@@ -356,7 +371,7 @@ namespace FrenchRepublicanCalendar.Fourmilab
             deltaPsi = dp / (3600.0 * 10000.0);
             deltaEpsilon = de / (3600.0 * 10000.0);
 
-            return new[] { deltaPsi, deltaEpsilon };
+            return new[] {deltaPsi, deltaEpsilon};
         }
 
         /*  ECLIPTOEQ  --  Convert celestial (ecliptical) longitude and
@@ -376,15 +391,15 @@ namespace FrenchRepublicanCalendar.Fourmilab
             eps = dtr(obliqeq(jd));
 
             Ra = rtd(Math.Atan2((Math.Cos(eps) * Math.Sin(dtr(Lambda)) -
-                                (Math.Tan(dtr(Beta)) * Math.Sin(eps))),
-                              Math.Cos(dtr(Lambda))));
+                                 (Math.Tan(dtr(Beta)) * Math.Sin(eps))),
+                Math.Cos(dtr(Lambda))));
             Ra = fixangle(rtd(Math.Atan2((Math.Cos(eps) * Math.Sin(dtr(Lambda)) -
-                                (Math.Tan(dtr(Beta)) * Math.Sin(eps))),
-                              Math.Cos(dtr(Lambda)))));
+                                          (Math.Tan(dtr(Beta)) * Math.Sin(eps))),
+                Math.Cos(dtr(Lambda)))));
             Dec = rtd(Math.Asin((Math.Sin(eps) * Math.Sin(dtr(Lambda)) * Math.Cos(dtr(Beta))) +
-                         (Math.Sin(dtr(Beta)) * Math.Cos(eps))));
+                                (Math.Sin(dtr(Beta)) * Math.Cos(eps))));
 
-            return new double[] { Ra, Dec };
+            return new double[] {Ra, Dec};
         }
 
 
@@ -394,7 +409,8 @@ namespace FrenchRepublicanCalendar.Fourmilab
         /*  Table of observed Delta T values at the beginning of
             even numbered years from 1620 through 2002.  */
 
-        public static double[] deltaTtab = new double[] {
+        public static double[] deltaTtab = new double[]
+        {
             121, 112, 103, 95, 88, 82, 77, 72, 68, 63, 60, 56, 53, 51, 48, 46,
             44, 42, 40, 38, 35, 33, 31, 29, 26, 24, 22, 20, 18, 16, 14, 12,
             11, 10, 9, 8, 7, 7, 7, 7, 7, 7, 8, 8, 9, 9, 9, 9, 9, 10, 10, 10,
@@ -417,8 +433,8 @@ namespace FrenchRepublicanCalendar.Fourmilab
 
             if ((year >= 1620) && (year <= 2000))
             {
-                int i = (int)Math.Floor((year - 1620) / 2);
-                f = ((year - 1620) / 2) - i;  /* Fractional part of year */
+                int i = (int) Math.Floor((year - 1620) / 2);
+                f = ((year - 1620) / 2) - i; /* Fractional part of year */
                 dt = deltaTtab[i] + ((deltaTtab[i + 1] - deltaTtab[i]) * f);
             }
             else
@@ -437,6 +453,7 @@ namespace FrenchRepublicanCalendar.Fourmilab
                     }
                 }
             }
+
             return dt;
         }
 
@@ -453,32 +470,33 @@ namespace FrenchRepublicanCalendar.Fourmilab
 
         //  Periodic terms to obtain true time
 
-        public static double[] EquinoxpTerms = new double[] {
-                               485, 324.96, 1934.136,
-                               203, 337.23, 32964.467,
-                               199, 342.08, 20.186,
-                               182, 27.85, 445267.112,
-                               156, 73.14, 45036.886,
-                               136, 171.52, 22518.443,
-                                77, 222.54, 65928.934,
-                                74, 296.72, 3034.906,
-                                70, 243.58, 9037.513,
-                                58, 119.81, 33718.147,
-                                52, 297.17, 150.678,
-                                50, 21.02, 2281.226,
-                                45, 247.54, 29929.562,
-                                44, 325.15, 31555.956,
-                                29, 60.93, 4443.417,
-                                18, 155.12, 67555.328,
-                                17, 288.79, 4562.452,
-                                16, 198.04, 62894.029,
-                                14, 199.76, 31436.921,
-                                12, 95.39, 14577.848,
-                                12, 287.11, 31931.756,
-                                12, 320.81, 34777.259,
-                                 9, 227.73, 1222.114,
-                                 8, 15.45, 16859.074
-                                     };
+        public static double[] EquinoxpTerms = new double[]
+        {
+            485, 324.96, 1934.136,
+            203, 337.23, 32964.467,
+            199, 342.08, 20.186,
+            182, 27.85, 445267.112,
+            156, 73.14, 45036.886,
+            136, 171.52, 22518.443,
+            77, 222.54, 65928.934,
+            74, 296.72, 3034.906,
+            70, 243.58, 9037.513,
+            58, 119.81, 33718.147,
+            52, 297.17, 150.678,
+            50, 21.02, 2281.226,
+            45, 247.54, 29929.562,
+            44, 325.15, 31555.956,
+            29, 60.93, 4443.417,
+            18, 155.12, 67555.328,
+            17, 288.79, 4562.452,
+            16, 198.04, 62894.029,
+            14, 199.76, 31436.921,
+            12, 95.39, 14577.848,
+            12, 287.11, 31931.756,
+            12, 320.81, 34777.259,
+            9, 227.73, 1222.114,
+            8, 15.45, 16859.074
+        };
 
         public static double[][] JDE0tab1000 = new double[][]
         {
@@ -498,7 +516,7 @@ namespace FrenchRepublicanCalendar.Fourmilab
 
         public static double equinox(double year, int which)
         {
-            double deltaL, JDE0, JDE,  S, T, W, Y;
+            double deltaL, JDE0, JDE, S, T, W, Y;
             int i, j;
             double[][] JDE0tab;
 
@@ -557,9 +575,23 @@ namespace FrenchRepublicanCalendar.Fourmilab
 
         public static double[] sunpos(double jd)
         {
-            double T, T2, L0, M, e, C, sunLong, sunAnomaly, sunR,
-                Omega, Lambda, epsilon, epsilon0, Alpha, Delta,
-                AlphaApp, DeltaApp;
+            double T,
+                T2,
+                L0,
+                M,
+                e,
+                C,
+                sunLong,
+                sunAnomaly,
+                sunR,
+                Omega,
+                Lambda,
+                epsilon,
+                epsilon0,
+                Alpha,
+                Delta,
+                AlphaApp,
+                DeltaApp;
 
             T = (jd - J2000) / JulianCentury;
             //document.debug.log.value += "Sunpos.  T = " + T + "\n";

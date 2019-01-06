@@ -1,16 +1,19 @@
-﻿
+﻿// It's the French republican calendar!
+// https://github.com/picrap/FrenchRepublicanCalendar
+// Released under MIT license
+
 namespace FrenchRepublicanCalendar
 {
     using System;
     using System.Globalization;
 
     /// <summary>
-    /// Implementation of <see cref="Calendar"/> for french republican calendar
+    ///     Implementation of <see cref="Calendar" /> for french republican calendar
     /// </summary>
     public class FrenchRepublicanCalendar : Calendar
     {
         /// <inheritdoc />
-        public override int[] Eras { get; } = new int[] { 1 };
+        public override int[] Eras { get; } = new int[] {1};
 
         /// <inheritdoc />
         public override DateTime AddMonths(DateTime time, int months)
@@ -33,7 +36,7 @@ namespace FrenchRepublicanCalendar
         /// <inheritdoc />
         public override DayOfWeek GetDayOfWeek(DateTime time)
         {
-            return (DayOfWeek)(new FrenchRepublicanDateTime(time).DayOfMonth % 10); // WTF? The calendar want a day of 7-days week?
+            return (DayOfWeek) (new FrenchRepublicanDateTime(time).DayOfMonth % 10); // WTF? The calendar want a day of 7-days week?
             // this won't make sense at all
         }
 
@@ -41,7 +44,7 @@ namespace FrenchRepublicanCalendar
         public override int GetDayOfYear(DateTime time)
         {
             var frenchRepublicanDateTime = new FrenchRepublicanDateTime(time);
-            return ((int)frenchRepublicanDateTime.Month - 1) * 30 + frenchRepublicanDateTime.DayOfMonth;
+            return ((int) frenchRepublicanDateTime.Month - 1) * 30 + frenchRepublicanDateTime.DayOfMonth;
         }
 
         /// <inheritdoc />
@@ -67,7 +70,7 @@ namespace FrenchRepublicanCalendar
         /// <inheritdoc />
         public override int GetMonth(DateTime time)
         {
-            return (int)new FrenchRepublicanDateTime(time).Month;
+            return (int) new FrenchRepublicanDateTime(time).Month;
         }
 
         /// <inheritdoc />
@@ -103,7 +106,7 @@ namespace FrenchRepublicanCalendar
         /// <inheritdoc />
         public override DateTime ToDateTime(int year, int month, int day, int hour, int minute, int second, int millisecond, int era)
         {
-            return new FrenchRepublicanDateTime(year, (FrenchRepublicanMonth)month, day, hour, minute, second, millisecond).DateTime;
+            return new FrenchRepublicanDateTime(year, (FrenchRepublicanMonth) month, day, hour, minute, second, millisecond).DateTime;
         }
     }
 }

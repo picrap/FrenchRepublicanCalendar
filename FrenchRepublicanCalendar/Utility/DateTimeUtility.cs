@@ -1,10 +1,13 @@
-﻿
+﻿// It's the French republican calendar!
+// https://github.com/picrap/FrenchRepublicanCalendar
+// Released under MIT license
+
 namespace FrenchRepublicanCalendar.Utility
 {
     using System;
 
     /// <summary>
-    /// Utilities to <see cref="DateTime"/>
+    ///     Utilities to <see cref="DateTime" />
     /// </summary>
     public static class DateTimeUtility
     {
@@ -12,7 +15,7 @@ namespace FrenchRepublicanCalendar.Utility
         private const double JulianDateStart = 2415018.5;
 
         /// <summary>
-        /// Converts a <see cref="DateTime"/> to Julian date
+        ///     Converts a <see cref="DateTime" /> to Julian date
         /// </summary>
         /// <param name="date"></param>
         /// <returns></returns>
@@ -22,7 +25,7 @@ namespace FrenchRepublicanCalendar.Utility
         }
 
         /// <summary>
-        /// Creates a <see cref="DateTime"/> from Julian date
+        ///     Creates a <see cref="DateTime" /> from Julian date
         /// </summary>
         /// <param name="jd"></param>
         /// <returns></returns>

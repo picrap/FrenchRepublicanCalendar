@@ -1,11 +1,13 @@
-﻿
-// ReSharper disable InconsistentNaming
-#pragma warning disable CS1591
+﻿// It's the French republican calendar!
+// https://github.com/picrap/FrenchRepublicanCalendar
+// Released under MIT license
 
-using System;
+#pragma warning disable CS1591
 
 namespace FrenchRepublicanCalendar.Fourmilab
 {
+    using System;
+
     // https://www.fourmilab.ch/documents/calendar/calendar.js
     // the file above is also embedded beside this one, in case their source code would change (so we could compare)
 
@@ -68,7 +70,9 @@ namespace FrenchRepublicanCalendar.Fourmilab
         public static double[] annee_da_la_revolution(double jd)
         {
             double guess = jd_to_gregorian(jd)[0] - 2,
-                lasteq, nexteq, adr;
+                lasteq,
+                nexteq,
+                adr;
 
             lasteq = paris_equinoxe_jd(guess);
             while (lasteq > jd)
@@ -76,6 +80,7 @@ namespace FrenchRepublicanCalendar.Fourmilab
                 guess--;
                 lasteq = paris_equinoxe_jd(guess);
             }
+
             nexteq = lasteq - 1;
             while (!((lasteq <= jd) && (jd < nexteq)))
             {
@@ -83,9 +88,10 @@ namespace FrenchRepublicanCalendar.Fourmilab
                 guess++;
                 nexteq = paris_equinoxe_jd(guess);
             }
+
             adr = Math.Round((lasteq - FRENCH_REVOLUTIONARY_EPOCH) / Astronomic.TropicalYear) + 1;
 
-            return new double[] { adr, lasteq };
+            return new double[] {adr, lasteq};
         }
 
         /*  JD_TO_FRENCH_REVOLUTIONARY  --  Calculate date in the French Revolutionary
@@ -108,7 +114,7 @@ namespace FrenchRepublicanCalendar.Fourmilab
             decade = Math.Floor(jour / 10) + 1;
             jour = (jour % 10) + 1;
 
-            return new double[]{an, mois, decade, jour};
+            return new double[] {an, mois, decade, jour};
         }
 
         /*  FRENCH_REVOLUTIONARY_TO_JD  --  Obtain Julian day from a given French
@@ -120,13 +126,14 @@ namespace FrenchRepublicanCalendar.Fourmilab
             double equinoxe, guess, jd;
 
             guess = FRENCH_REVOLUTIONARY_EPOCH + (Astronomic.TropicalYear * ((an - 1) - 1));
-            adr = new [] {an - 1, 0};
+            adr = new[] {an - 1, 0};
 
             while (adr[0] < an)
             {
                 adr = annee_da_la_revolution(guess);
                 guess = adr[1] + (Astronomic.TropicalYear + 2);
             }
+
             equinoxe = adr[1];
 
             jd = equinoxe + (30 * (mois - 1)) + (10 * (decade - 1)) + (jour - 1);
@@ -153,8 +160,7 @@ namespace FrenchRepublicanCalendar.Fourmilab
                    (-Math.Floor((year - 1) / 100)) +
                    Math.Floor((year - 1) / 400) +
                    Math.Floor((((367 * month) - 362) / 12) +
-                              ((month <= 2) ? 0 :
-                                  (leap_gregorian(year) ? -1 : -2)
+                              ((month <= 2) ? 0 : (leap_gregorian(year) ? -1 : -2)
                               ) +
                               day);
         }
@@ -164,8 +170,18 @@ namespace FrenchRepublicanCalendar.Fourmilab
 
         public static double[] jd_to_gregorian(double jd)
         {
-            double wjd, depoch, quadricent, dqc, cent, dcent, quad, dquad,
-                yindex, year, yearday, leapadj;
+            double wjd,
+                depoch,
+                quadricent,
+                dqc,
+                cent,
+                dcent,
+                quad,
+                dquad,
+                yindex,
+                year,
+                yearday,
+                leapadj;
 
             wjd = Math.Floor(jd - 0.5) + 0.5;
             depoch = wjd - GREGORIAN_EPOCH;
@@ -181,15 +197,16 @@ namespace FrenchRepublicanCalendar.Fourmilab
             {
                 year++;
             }
+
             yearday = wjd - gregorian_to_jd(year, 1, 1);
-            leapadj = ((wjd < gregorian_to_jd(year, 3, 1)) ? 0
-                    :
-                    (leap_gregorian(year) ? 1 : 2)
+            leapadj = ((wjd < gregorian_to_jd(year, 3, 1))
+                    ? 0
+                    : (leap_gregorian(year) ? 1 : 2)
                 );
             var month = Math.Floor((((yearday + leapadj) * 12) + 373) / 367);
             var day = (wjd - gregorian_to_jd(year, month, 1)) + 1;
 
-            return new double[]{year, month, day};
+            return new double[] {year, month, day};
         }
     }
 }
