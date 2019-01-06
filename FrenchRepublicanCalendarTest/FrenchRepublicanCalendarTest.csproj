@@ -45,6 +45,7 @@
     <Compile Include="ConversionTest.cs" />
     <Compile Include="LeapTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ToStringTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MSTest.TestAdapter">

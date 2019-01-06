@@ -11,6 +11,8 @@ namespace FrenchRepublicanCalendar
     using System;
     using System.Globalization;
     using System.Text;
+    using RomanNumerals;
+    using RomanNumerals.Numerals;
     using Utility;
 
     /// <summary>
@@ -174,16 +176,28 @@ namespace FrenchRepublicanCalendar
         /// <param name="format"></param>
         /// <param name="formatProvider"></param>
         /// <returns></returns>
-        public string ToString(string format, IFormatProvider formatProvider)
+        public string ToString(string format, IFormatProvider formatProvider = null)
         {
+            if (formatProvider is null)
+                formatProvider = CultureInfo.CurrentCulture;
+
             // https://docs.microsoft.com/en-us/dotnet/api/system.datetime.tostring?view=netframework-4.7.2#System_DateTime_ToString
             if (format == "d") return ToString("dd/MM/yyyy", formatProvider);
             if (format == "D") return ToString("dddd d MMMM yyyy", formatProvider);
-            if (format == "f") return ToString("dddd d MMMM yyyy hh:mm", formatProvider);
-            if (format == "F") return ToString("dddd d MMMM yyyy hh:mm:ss", formatProvider);
-            if (format == "G") return ToString("dd/MM/yyyy hh:mm:ss", formatProvider);
-            if (format == "g") return ToString("dd/MM/yyyy hh:mm", formatProvider);
+            if (format == "f") return ToString("dddd d MMMM yyyy hh:mm tt", formatProvider);
+            if (format == "F") return ToString("dddd d MMMM yyyy hh:mm:ss tt", formatProvider);
+            //if (format == "g") return ToString("dd/MM/yyyy hh:mm tt", formatProvider);
+            //if (format == "G") return ToString("dd/MM/yyyy hh:mm:ss tt", formatProvider);
+            if (format == "g") return ToString(@"dddd, dd MMMM \a\n yyy, HH:mm", formatProvider);
+            if (format == "G") return ToString(@"dddd, dd MMMM \a\n yyy, HH:mm:ss", formatProvider);
             if (format == "m") return ToString("d MMMM", formatProvider);
+            if (format == "o") return ToString("yyyy-MM-ddTHH:mm:ss.fffffff", formatProvider);
+            if (format == "R") return ToString("ddd, dd MMM yyyy HH:mm:ss", formatProvider); // Sun, 15 Jun 2008 21:15:07 GMT
+            if (format == "s") return ToString("yyyy-MM-ddTHH:mm:ss", formatProvider);
+            if (format == "t") return ToString("h:mm tt", formatProvider);
+            if (format == "u") return ToString("yyyy-MM-dd HH:mm:ss z", formatProvider);
+            if (format == "U") return ToString("dddd d MMMM yyyy hh:mm:ss tt", formatProvider);
+            if (format == "y") return ToString("MMMM, yyyy", formatProvider);
 
             // https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings?view=netframework-4.7.2
             var stringBuilder = new StringBuilder();
@@ -195,27 +209,84 @@ namespace FrenchRepublicanCalendar
                     stringBuilder.Append(format[++index]);
                     index++;
                 }
+                else if (Capture(format, "Y", ref index)) stringBuilder.Append(((uint)Year).ToRomanNumerals());
+                else if (Capture(format, "YU", ref index)) stringBuilder.Append(((uint)Year).ToRomanNumerals(NumeralFlags.Unicode));
                 else if (Capture(format, "yyyyy", ref index)) stringBuilder.AppendFormat("{0:D5}", Year);
                 else if (Capture(format, "yyyy", ref index)) stringBuilder.AppendFormat("{0:D4}", Year);
                 else if (Capture(format, "yyy", ref index)) stringBuilder.AppendFormat("{0:D3}", Year);
                 else if (Capture(format, "yy", ref index)) stringBuilder.AppendFormat("{0:D2}", Year % 100);
                 else if (Capture(format, "y", ref index)) stringBuilder.Append(Year % 100);
-                else if (Capture(format, "MMMM", ref index)) stringBuilder.Append(Month.ToString());
-                else if (Capture(format, "MMM", ref index)) stringBuilder.Append(Month.ToString());
+                else if (Capture(format, "MMMM", ref index)) stringBuilder.Append(GetLiteral(Month));
+                else if (Capture(format, "MMM", ref index)) stringBuilder.Append(GetShortLiteral(Month));
                 else if (Capture(format, "MM", ref index)) stringBuilder.AppendFormat("{0:D2}", (int)Month);
                 else if (Capture(format, "M", ref index)) stringBuilder.Append((int)Month);
-                else if (Capture(format, "dddd", ref index)) stringBuilder.Append(DayOfSansCulottide.HasValue ? DayOfSansCulottide.ToString() : DayOfDecade.ToString());
-                else if (Capture(format, "ddd", ref index)) stringBuilder.Append(DayOfSansCulottide.HasValue ? DayOfSansCulottide.ToString() : DayOfDecade.ToString());
+                else if (Capture(format, "dddd", ref index)) stringBuilder.Append(DayOfSansCulottide.HasValue ? GetLiteral(DayOfSansCulottide.Value) : GetLiteral(DayOfDecade.Value));
+                else if (Capture(format, "ddd", ref index)) stringBuilder.Append(DayOfSansCulottide.HasValue ? GetShortLiteral(DayOfSansCulottide.Value) : GetShortLiteral(DayOfDecade.Value));
                 else if (Capture(format, "dd", ref index)) stringBuilder.AppendFormat("{0:D2}", DayOfMonth);
                 else if (Capture(format, "d", ref index)) stringBuilder.Append(DayOfMonth);
+                else if (CaptureAny(format, ref index, out var captured,
+                    "fffffff", "ffffff", "fffff", "ffff", "fff", "ff", "f",
+                    "FFFFFFF", "FFFFFF", "FFFFF", "FFFF", "FFF", "FF", "F",
+                    "hh", "h", "HH", "H",
+                    "K",
+                    "mm", "m",
+                    "ss", "s",
+                    "tt", "t",
+                    "zzz", "zz", "z"))
+                    stringBuilder.Append(DateTime.ToString(" " + captured).Substring(1));
                 else stringBuilder.Append(format[index++]);
             }
             return stringBuilder.ToString();
         }
 
+        private static string GetLiteral(FrenchRepublicanMonth month)
+        {
+            return month.ToString();
+        }
+
+        private static string GetLiteral(FrenchRepublicanDayOfDecade dayOfDecade)
+        {
+            return dayOfDecade.ToString();
+        }
+
+        private static string GetLiteral(FrenchRepublicanDayOfSansCulottide dayOfSansCulottide)
+        {
+            return dayOfSansCulottide.ToString();
+        }
+
+        private static string GetShortLiteral(FrenchRepublicanMonth month)
+        {
+            return GetLiteral(month).Substring(0, 3);
+        }
+
+        private static string GetShortLiteral(FrenchRepublicanDayOfDecade dayOfDecade)
+        {
+            return GetLiteral(dayOfDecade).Substring(0, 3);
+        }
+
+        private static string GetShortLiteral(FrenchRepublicanDayOfSansCulottide dayOfSansCulottide)
+        {
+            return GetLiteral(dayOfSansCulottide).Substring(0, 3);
+        }
+
+        private static bool CaptureAny(string format, ref int index, out string captured, params string[] captures)
+        {
+            foreach (var capture in captures)
+            {
+                if (Capture(format, capture, ref index))
+                {
+                    captured = capture;
+                    return true;
+                }
+            }
+
+            captured = null;
+            return false;
+        }
+
         private static bool Capture(string format, string capture, ref int index)
         {
-            if (index + capture.Length >= format.Length)
+            if (index + capture.Length > format.Length)
                 return false;
             if (format.Substring(index, capture.Length) == capture)
             {

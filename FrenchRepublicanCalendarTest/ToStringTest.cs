@@ -1,0 +1,42 @@
+﻿namespace FrenchRepublicanCalendarTest
+{
+    using System;
+    using FrenchRepublicanCalendar;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+    [TestClass]
+    public class ToStringTest
+    {
+        [TestMethod]
+        public void DefaultTest()
+        {
+            var d = new FrenchRepublicanDateTime(new DateTime(2019, 1, 6, 15, 53, 12));
+            var l = d.ToString();
+            Assert.AreEqual("Septidi, 17 Nivôse an 227, 15:53:12", l);
+        }
+
+        [TestMethod]
+        public void To_o_Test()
+        {
+            var d = new FrenchRepublicanDateTime(new DateTime(2019, 1, 6, 15, 53, 12));
+            var l = d.ToString("o");
+            Assert.AreEqual("0227-04-17T15:53:12.0000000", l);
+        }
+
+        [TestMethod]
+        public void To_MMM_Test()
+        {
+            var d = new FrenchRepublicanDateTime(new DateTime(1973, 9, 28, 13, 15, 0));
+            var l = d.ToString("MMM");
+            Assert.AreEqual("Ven", l);
+        }
+
+        [TestMethod]
+        public void To_ddd_Test()
+        {
+            var d = new FrenchRepublicanDateTime(new DateTime(1973, 9, 27, 12, 0, 0));
+            var l = d.ToString("ddd");
+            Assert.AreEqual("Sex", l); // funny, isn't it?
+        }
+    }
+}
