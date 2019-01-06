@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 
 <package>
   <metadata>
@@ -12,7 +12,7 @@
     <iconUrl>https://raw.githubusercontent.com/picrap/FrenchRepublicanCalendar/master/Icon/Calendar.png</iconUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <summary>French republication DateTime and Calendar</summary>
-    <description>Vive la r�volution! A few classes to convert from and to French republican calendar (that existed between 1792 and 1806).</description>
+    <description>Vive la révolution! A few classes to convert from and to French republican calendar (that existed between 1792 and 1806).</description>
     <releaseNotes></releaseNotes>
     <copyright>Pascal Craponne</copyright>
     <tags>french republican calendar</tags>
