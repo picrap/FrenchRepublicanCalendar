@@ -83,6 +83,7 @@ namespace FrenchRepublicanCalendar
 
         public string ToString(string format, IFormatProvider formatProvider)
         {
+            // https://docs.microsoft.com/en-us/dotnet/api/system.datetime.tostring?view=netframework-4.7.2#System_DateTime_ToString
             if (format == "d") return ToString("dd/MM/yyyy", formatProvider);
             if (format == "D") return ToString("dddd d MMMM yyyy", formatProvider);
             if (format == "f") return ToString("dddd d MMMM yyyy hh:mm", formatProvider);
@@ -91,6 +92,7 @@ namespace FrenchRepublicanCalendar
             if (format == "g") return ToString("dd/MM/yyyy hh:mm", formatProvider);
             if (format == "m") return ToString("d MMMM", formatProvider);
 
+            // https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings?view=netframework-4.7.2
             var stringBuilder = new StringBuilder();
             for (int index = 0; index < format.Length;)
             {
