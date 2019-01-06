@@ -15,4 +15,39 @@
     <PackageReference Include="Roman-Numerals" Version="0.1.0" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(VSToolsPath)\TextTemplating\Microsoft.TextTemplating.targets" />
+  <PropertyGroup>
+    <TransformOnBuild>true</TransformOnBuild>
+    <PackageId>FrenchRepublicanCalendar</PackageId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Update="Properties\ProductInfo.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>ProductInfo.cs</LastGenOutput>
+    </None>
+    <Compile Update="Properties\ProductInfo.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ProductInfo.tt</DependentUpon>
+    </Compile>
+    <None Update="FrenchRepublicanCalendar.nuspec">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>FrenchRepublicanCalendar.tt</DependentUpon>
+    </None>
+    <None Update="FrenchRepublicanCalendar.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>FrenchRepublicanCalendar.nuspec</LastGenOutput>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+  
 </Project>

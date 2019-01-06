@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+
+<package>
+  <metadata>
+    <id>FrenchRepublicanCalendar</id>
+    <version>0.1.0</version>
+    <title>FrenchRepublicanCalendar</title>
+    <authors>picrap</authors>
+    <owners>picrap</owners>
+    <licenseUrl>https://raw.githubusercontent.com/picrap/FrenchRepublicanCalendar/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/picrap/FrenchRepublicanCalendar</projectUrl>
+    <iconUrl>https://raw.githubusercontent.com/picrap/FrenchRepublicanCalendar/master/Icon/Calendar.png</iconUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <summary>French republication DateTime and Calendar</summary>
+    <description>Vive la révolution! A few classes to convert from and to French republican calendar (that existed between 1792 and 1806).</description>
+    <releaseNotes></releaseNotes>
+    <copyright>Pascal Craponne</copyright>
+    <tags>french republican calendar</tags>
+    <developmentDependency>false</developmentDependency>
+  </metadata>
+  <files>
+    <file src="..\FrenchRepublicanCalendar\bin\$ConfigurationName$\netstandard2.0\FrenchRepublicanCalendar.dll" target="lib\netstandard20"/>
+    <file src="..\FrenchRepublicanCalendar\bin\$ConfigurationName$\netstandard2.0\FrenchRepublicanCalendar.pdb" target="lib\netstandard20"/>
+    <file src="..\FrenchRepublicanCalendar\bin\$ConfigurationName$\netstandard2.0\FrenchRepublicanCalendar.xml" target="lib\netstandard20"/>
+    <file src="..\FrenchRepublicanCalendar\**\*.cs" target="src"/>
+  </files>
+</package>
