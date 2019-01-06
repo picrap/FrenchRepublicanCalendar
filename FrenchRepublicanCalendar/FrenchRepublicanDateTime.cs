@@ -175,22 +175,6 @@ namespace FrenchRepublicanCalendar
         }
 
         /// <summary>
-        ///     Adds hours, minutes, seconds, milliseconds to given <see cref="DateTime" />
-        /// </summary>
-        /// <param name="dateTime"></param>
-        /// <param name="hour"></param>
-        /// <param name="minute"></param>
-        /// <param name="second"></param>
-        /// <param name="millisecond"></param>
-        /// <param name="kind"></param>
-        /// <returns></returns>
-        private static DateTime Add(DateTime dateTime, int hour = 0, int minute = 0, int second = 0, int millisecond = 0,
-            DateTimeKind kind = DateTimeKind.Unspecified)
-        {
-            return dateTime + new TimeSpan(hour, minute, second, millisecond);
-        }
-
-        /// <summary>
         ///     Returns a literal representation of date
         /// </summary>
         /// <returns></returns>
