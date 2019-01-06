@@ -76,5 +76,21 @@ namespace FrenchRepublicanCalendarTest
             Assert.AreEqual(FrenchRepublicanMonth.Nivôse, frd.Month);
             Assert.AreEqual(227, frd.Year);
         }
+
+        [TestMethod]
+        public void ToDateTimeFromPM()
+        {
+            var d = new DateTime(2019, 1, 1, 12, 13, 14, 151, DateTimeKind.Utc);
+            var frd = new FrenchRepublicanDateTime(d);
+            Assert.AreEqual(d, frd.DateTime);
+        }
+
+        [TestMethod]
+        public void ToDateTimeFromAM()
+        {
+            var d = new DateTime(2019, 1, 1, 0, 13, 14, 151, DateTimeKind.Utc);
+            var frd = new FrenchRepublicanDateTime(d);
+            Assert.AreEqual(d, frd.DateTime);
+        }
     }
 }
