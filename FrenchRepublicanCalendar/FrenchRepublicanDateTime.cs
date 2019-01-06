@@ -87,14 +87,9 @@ namespace FrenchRepublicanCalendar
         public int Millisecond => (int)(_ticks / 10000 % 1000);
 
         /// <summary>
-        ///     Gets the ticks
-        /// </summary>
-        public long Ticks => DateTime.Ticks;
-
-        /// <summary>
         ///     Get the kind
         /// </summary>
-        public DateTimeKind Kind => DateTime.Kind;
+        public DateTimeKind Kind => (DateTimeKind)(_ticks / 10000 / 1000 / 100 / 100 / 10 % 10);
 
         /// <summary>
         ///     Gets the corresponding <see cref="DateTime" />
@@ -112,7 +107,7 @@ namespace FrenchRepublicanCalendar
             _year = (short)d[0];
             _month = (byte)d[1];
             _dayOfMonth = (byte)(d[3] + (d[2] - 1) * 10);
-            _ticks = (long)dateTime.TimeOfDay.Ticks;
+            _ticks = dateTime.TimeOfDay.Ticks + (long)dateTime.Kind * 10 * 100 * 100 * 1000 * 10000;
             DateTime = dateTime;
         }
 
@@ -125,7 +120,7 @@ namespace FrenchRepublicanCalendar
             _year = (short)year;
             _month = (byte)month;
             _dayOfMonth = (byte)dayOfMonth;
-            _ticks = ((((hour * 10L) + minute) * 100 + second) * 1000 + millisecond) * 10000;
+            _ticks = ((((((long)kind * 10 + hour) * 10) + minute) * 100 + second) * 1000 + millisecond) * 10000;
             var jd = Fourmilab.Calendar.french_revolutionary_to_jd(year, (int)month, dayOfMonth / 10 + 1, _dayOfMonth % 10);
             DateTime = Add(DateTimeUtility.FromJulianDate(jd), hour, minute, second, millisecond, kind);
         }
@@ -139,7 +134,7 @@ namespace FrenchRepublicanCalendar
             _year = (short)year;
             _month = (byte)month;
             _dayOfMonth = (byte)((int)dayOfDecade + (decade - 1) * 10);
-            _ticks = ((((hour * 10L) + minute) * 100 + second) * 1000 + millisecond) * 10000;
+            _ticks = ((((((long)kind * 10 + hour) * 10) + minute) * 100 + second) * 1000 + millisecond) * 10000;
             var jd = Fourmilab.Calendar.french_revolutionary_to_jd(year, (int)month, decade, (int)dayOfDecade);
             DateTime = Add(DateTimeUtility.FromJulianDate(jd), hour, minute, second, millisecond, kind);
         }
@@ -153,7 +148,7 @@ namespace FrenchRepublicanCalendar
             _year = (short)year;
             _month = (byte)month;
             _dayOfMonth = (byte)dayOfSansCulottide;
-            _ticks = ((((hour * 10L) + minute) * 100 + second) * 1000 + millisecond) * 10000;
+            _ticks = ((((((long)kind * 10 + hour) * 10) + minute) * 100 + second) * 1000 + millisecond) * 10000;
             var jd = Fourmilab.Calendar.french_revolutionary_to_jd(year, 13, 0, (int)dayOfSansCulottide);
             DateTime = Add(DateTimeUtility.FromJulianDate(jd), hour, minute, second, millisecond, kind);
         }
