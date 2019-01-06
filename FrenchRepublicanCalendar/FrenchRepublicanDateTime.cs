@@ -13,74 +13,167 @@ namespace FrenchRepublicanCalendar
     using System.Text;
     using Utility;
 
+    /// <summary>
+    /// Specific implementation of <see cref="DateTime"/> for French republican calendar
+    /// Adds some extra properties
+    /// </summary>
     public struct FrenchRepublicanDateTime : IFormattable
     {
+        /// <summary>
+        /// Gets the day of decade
+        /// </summary>
+        /// <remarks>
+        /// The standard week has 10 days, it is named a "décade" (french term), each month is exactly 30 days, so 3 decades
+        /// </remarks>
+        /// <returns>A day of decade of null for 13th month</returns>
         public FrenchRepublicanDayOfDecade? DayOfDecade => Month != FrenchRepublicanMonth.SansColuttides ? (FrenchRepublicanDayOfDecade?)(DayOfMonth % 10) : null;
+        /// <summary>
+        /// Gets the day of sans-coluttide
+        /// </summary>
+        /// <remarks>
+        /// Sans-coluttides are 5 or 6 days added after the 360 regular days.
+        /// They're here to fill the year and ensure that 1er Vendémiaire happens on autumnal equinoxe
+        /// </remarks>
+        /// <returns>A day of null when not in 13th month</returns>
         public FrenchRepublicanDayOfSansCulottide? DayOfSansCulottide => Month == FrenchRepublicanMonth.SansColuttides ? (FrenchRepublicanDayOfSansCulottide?)DayOfMonth : null;
-        public byte DayOfMonth { get; }
-        public int Decade => DayOfMonth / 10 + 1;
+
+        private readonly byte _dayOfMonth;
+
+        /// <summary>
+        /// Get the day of month, in a numeric form (1 to 30)
+        /// </summary>
+        public int DayOfMonth => _dayOfMonth;
+
+        /// <summary>
+        /// Gets the decade (10-days week) of month (1 to 3)
+        /// </summary>
+        public int Decade => _dayOfMonth / 10 + 1;
 
         private readonly byte _month;
+
+        /// <summary>
+        /// Gets the month, as an enumerated value (1 to 13)
+        /// </summary>
         public FrenchRepublicanMonth Month => (FrenchRepublicanMonth)_month;
 
-        public short Year { get; }
+        private readonly short _year;
 
+        /// <summary>
+        /// Gets the year (year I starts in 1792 AD)
+        /// </summary>
+        public int Year => _year;
+
+        /// <summary>
+        /// Gets the hour (0-23)
+        /// </summary>
         public int Hour => DateTime.Hour;
+        /// <summary>
+        /// Gets the minute (0-59)
+        /// </summary>
         public int Minute => DateTime.Minute;
+        /// <summary>
+        /// Gets the second (0-60)
+        /// </summary>
         public int Second => DateTime.Second;
+        /// <summary>
+        /// Gets the millisecond (0-999)
+        /// </summary>
         public int Millisecond => DateTime.Millisecond;
+        /// <summary>
+        /// Gets the ticks
+        /// </summary>
         public long Ticks => DateTime.Ticks;
+        /// <summary>
+        /// Get the kind
+        /// </summary>
         public DateTimeKind Kind => DateTime.Kind;
+        /// <summary>
+        /// Gets the corresponding <see cref="DateTime"/>
+        /// </summary>
         public DateTime DateTime { get; }
 
+        /// <summary>
+        /// Creates an instance of <see cref="FrenchRepublicanDateTime"/> using a <see cref="DateTime"/>
+        /// </summary>
+        /// <param name="dateTime"></param>
         public FrenchRepublicanDateTime(DateTime dateTime)
         {
             var jd = dateTime.ToJulianDate();
             var d = Fourmilab.Calendar.jd_to_french_revolutionary(jd);
-            Year = (short)d[0];
+            _year = (short)d[0];
             _month = (byte)d[1];
-            DayOfMonth = (byte)(d[3] + (d[2] - 1) * 10);
+            _dayOfMonth = (byte)(d[3] + (d[2] - 1) * 10);
             DateTime = dateTime;
         }
 
+        /// <summary>
+        /// Creates an instance of <see cref="FrenchRepublicanDateTime"/>
+        /// </summary>
         public FrenchRepublicanDateTime(int year, FrenchRepublicanMonth month, int dayOfMonth,
             int hour = 0, int minute = 0, int second = 0, int millisecond = 0, DateTimeKind kind = DateTimeKind.Unspecified)
         {
-            Year = (short)year;
+            _year = (short)year;
             _month = (byte)month;
-            DayOfMonth = (byte)dayOfMonth;
-            var jd = Fourmilab.Calendar.french_revolutionary_to_jd(year, (int)month, dayOfMonth / 10 + 1, DayOfMonth % 10);
+            _dayOfMonth = (byte)dayOfMonth;
+            var jd = Fourmilab.Calendar.french_revolutionary_to_jd(year, (int)month, dayOfMonth / 10 + 1, _dayOfMonth % 10);
             DateTime = Add(DateTimeUtility.FromJulianDate(jd), hour, minute, second, millisecond, kind);
         }
 
+        /// <summary>
+        /// Creates an instance of <see cref="FrenchRepublicanDateTime"/>
+        /// </summary>
         public FrenchRepublicanDateTime(int year, FrenchRepublicanMonth month, int decade, FrenchRepublicanDayOfDecade dayOfDecade,
             int hour = 0, int minute = 0, int second = 0, int millisecond = 0, DateTimeKind kind = DateTimeKind.Unspecified)
         {
-            Year = (short)year;
+            _year = (short)year;
             _month = (byte)month;
-            DayOfMonth = (byte)((int)dayOfDecade + (decade - 1) * 10);
+            _dayOfMonth = (byte)((int)dayOfDecade + (decade - 1) * 10);
             var jd = Fourmilab.Calendar.french_revolutionary_to_jd(year, (int)month, decade, (int)dayOfDecade);
             DateTime = Add(DateTimeUtility.FromJulianDate(jd), hour, minute, second, millisecond, kind);
         }
 
+        /// <summary>
+        /// Creates an instance of <see cref="FrenchRepublicanDateTime"/>
+        /// </summary>
         public FrenchRepublicanDateTime(int year, FrenchRepublicanMonth month, FrenchRepublicanDayOfSansCulottide dayOfSansCulottide,
             int hour = 0, int minute = 0, int second = 0, int millisecond = 0, DateTimeKind kind = DateTimeKind.Unspecified)
         {
-            Year = (short)year;
+            _year = (short)year;
             _month = (byte)month;
-            DayOfMonth = (byte)dayOfSansCulottide;
+            _dayOfMonth = (byte)dayOfSansCulottide;
             var jd = Fourmilab.Calendar.french_revolutionary_to_jd(year, 13, 0, (int)dayOfSansCulottide);
             DateTime = Add(DateTimeUtility.FromJulianDate(jd), hour, minute, second, millisecond, kind);
         }
 
+        /// <summary>
+        /// Adds hours, minutes, seconds, milliseconds to given <see cref="DateTime"/>
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <param name="hour"></param>
+        /// <param name="minute"></param>
+        /// <param name="second"></param>
+        /// <param name="millisecond"></param>
+        /// <param name="kind"></param>
+        /// <returns></returns>
         private static DateTime Add(DateTime dateTime, int hour = 0, int minute = 0, int second = 0, int millisecond = 0,
             DateTimeKind kind = DateTimeKind.Unspecified)
         {
             return dateTime + new TimeSpan(hour, minute, second, millisecond);
         }
 
+        /// <summary>
+        /// Returns a literal representation of date
+        /// </summary>
+        /// <returns></returns>
         public override string ToString() => ToString("G", CultureInfo.CurrentCulture);
 
+        /// <summary>
+        /// Converts date to literal representation.
+        /// The supported formats are the same as <see cref="DateTime"/>
+        /// </summary>
+        /// <param name="format"></param>
+        /// <param name="formatProvider"></param>
+        /// <returns></returns>
         public string ToString(string format, IFormatProvider formatProvider)
         {
             // https://docs.microsoft.com/en-us/dotnet/api/system.datetime.tostring?view=netframework-4.7.2#System_DateTime_ToString
@@ -120,7 +213,7 @@ namespace FrenchRepublicanCalendar
             return stringBuilder.ToString();
         }
 
-        public bool Capture(string format, string capture, ref int index)
+        private bool Capture(string format, string capture, ref int index)
         {
             if (index + capture.Length >= format.Length)
                 return false;
@@ -133,11 +226,21 @@ namespace FrenchRepublicanCalendar
             return false;
         }
 
+        /// <summary>
+        /// Adds days to this <see cref="FrenchRepublicanDateTime"/> and returns a new <see cref="FrenchRepublicanDateTime"/>
+        /// </summary>
+        /// <param name="days"></param>
+        /// <returns></returns>
         public FrenchRepublicanDateTime AddDays(int days)
         {
             return new FrenchRepublicanDateTime(DateTime + TimeSpan.FromDays(days));
         }
 
+        /// <summary>
+        /// Adds months to this <see cref="FrenchRepublicanDateTime"/> and returns a new <see cref="FrenchRepublicanDateTime"/>
+        /// </summary>
+        /// <param name="months"></param>
+        /// <returns></returns>
         public FrenchRepublicanDateTime AddMonths(int months)
         {
             var newMonth = (int)(Month - 1) + months;
@@ -151,6 +254,12 @@ namespace FrenchRepublicanCalendar
             return new FrenchRepublicanDateTime(newYear, (FrenchRepublicanMonth)(newMonth + 1), newDayOfMonth, Hour, Minute, Second, Millisecond, Kind);
         }
 
+        /// <summary>
+        /// Tells if the given republican year is a leap year
+        /// (in which case it has a 6th sans-culottide day)
+        /// </summary>
+        /// <param name="year"></param>
+        /// <returns></returns>
         public static bool IsLeapYear(int year)
         {
             // this is not something I'm proud of

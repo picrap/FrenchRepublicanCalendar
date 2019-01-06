@@ -1,4 +1,7 @@
 ﻿
+// ReSharper disable InconsistentNaming
+#pragma warning disable CS1591
+
 namespace FrenchRepublicanCalendar.Fourmilab
 {
     using System;
