@@ -1,4 +1,4 @@
-﻿namespace CalendarTest
+﻿namespace FrenchRepublicanCalendarTest
 {
     using FrenchRepublicanCalendar;
     using Microsoft.VisualStudio.TestTools.UnitTesting;

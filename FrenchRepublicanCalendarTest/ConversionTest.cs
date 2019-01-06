@@ -1,9 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-
-namespace CalendarTest
+﻿namespace FrenchRepublicanCalendarTest
 {
     using System;
     using FrenchRepublicanCalendar;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
     public class ConversionTest
