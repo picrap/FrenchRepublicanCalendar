@@ -34,7 +34,7 @@ test:
     - '**\*Test.dll'
 
 artifacts:
-  - path: 'FrenchRepublicanCalendar\bin\$(configuration)\*.nupkg'
+  - path: 'FrenchRepublicanCalendar\*.nupkg'
 
 deploy:
   provider: NuGet
