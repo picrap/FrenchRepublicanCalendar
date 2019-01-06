@@ -10,4 +10,5 @@ The package exposes two main classes:
 * `FrenchRepublicanCalendar`, a `Calendar` implementation for French Republican calendar.
 
 ## More about the French republican calender
-Documentation and code come from https://www.fourmilab.ch/documents/calendar/
+Documentation and code come from https://www.fourmilab.ch/documents/calendar/  
+More information about calendar can be found at https://en.wikipedia.org/wiki/French_Republican_calendar
