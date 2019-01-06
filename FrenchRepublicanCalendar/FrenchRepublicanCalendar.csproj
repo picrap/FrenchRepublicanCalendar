@@ -27,6 +27,9 @@
     <TransformOnBuild>true</TransformOnBuild>
     <PackageId>FrenchRepublicanCalendar</PackageId>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DocumentationFile>bin\Release\FrenchRepublicanCalendar.xml</DocumentationFile>
+  </PropertyGroup>
 
   <ItemGroup>
     <None Update="Properties\ProductInfo.tt">
