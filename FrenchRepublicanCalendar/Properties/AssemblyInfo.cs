@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Reflection;
 
-[assembly: AssemblyTitle("Roman Numerals")]
+[assembly: AssemblyTitle("French Republican Calendar")]
 
 //[assembly: CLSCompliant(true)]

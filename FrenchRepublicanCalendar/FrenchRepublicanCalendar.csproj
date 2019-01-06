@@ -10,6 +10,9 @@
     <PackageTags>french republican calendar</PackageTags>
     <Description>Provides date time manipulation for French republican calendar.</Description>
   </PropertyGroup>
+  <PropertyGroup>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  </PropertyGroup> 
 
   <ItemGroup>
     <PackageReference Include="Roman-Numerals" Version="0.1.0" />
