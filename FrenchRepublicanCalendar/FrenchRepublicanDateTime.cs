@@ -213,7 +213,7 @@ namespace FrenchRepublicanCalendar
             return stringBuilder.ToString();
         }
 
-        private bool Capture(string format, string capture, ref int index)
+        private static bool Capture(string format, string capture, ref int index)
         {
             if (index + capture.Length >= format.Length)
                 return false;
