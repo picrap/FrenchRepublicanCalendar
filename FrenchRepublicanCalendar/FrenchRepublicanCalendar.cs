@@ -10,7 +10,7 @@ namespace FrenchRepublicanCalendar
     public class FrenchRepublicanCalendar : Calendar
     {
         /// <inheritdoc />
-        public override int[] Eras { get; } = new int[1];
+        public override int[] Eras { get; } = new int[] { 1 };
 
         /// <inheritdoc />
         public override DateTime AddMonths(DateTime time, int months)
