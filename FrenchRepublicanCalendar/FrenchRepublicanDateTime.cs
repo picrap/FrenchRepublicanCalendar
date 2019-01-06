@@ -64,25 +64,27 @@ namespace FrenchRepublicanCalendar
         /// </summary>
         public int Year => _year;
 
-        /// <summary>
-        ///     Gets the hour (0-23)
-        /// </summary>
-        public int Hour => DateTime.Hour;
+        private readonly int _milliseconds;
 
         /// <summary>
-        ///     Gets the minute (0-59)
+        ///     Gets the hour (0-9)
         /// </summary>
-        public int Minute => DateTime.Minute;
+        public int Hour => _milliseconds / 1000 / 100 / 100;
 
         /// <summary>
-        ///     Gets the second (0-60)
+        ///     Gets the minute (0-99)
         /// </summary>
-        public int Second => DateTime.Second;
+        public int Minute => (_milliseconds / 1000 / 100) % 100;
+
+        /// <summary>
+        ///     Gets the second (0-99)
+        /// </summary>
+        public int Second => (_milliseconds / 1000) % 100;
 
         /// <summary>
         ///     Gets the millisecond (0-999)
         /// </summary>
-        public int Millisecond => DateTime.Millisecond;
+        public int Millisecond => _milliseconds % 1000;
 
         /// <summary>
         ///     Gets the ticks
@@ -110,6 +112,7 @@ namespace FrenchRepublicanCalendar
             _year = (short)d[0];
             _month = (byte)d[1];
             _dayOfMonth = (byte)(d[3] + (d[2] - 1) * 10);
+            _milliseconds = (int)dateTime.TimeOfDay.TotalMilliseconds;
             DateTime = dateTime;
         }
 
@@ -122,6 +125,7 @@ namespace FrenchRepublicanCalendar
             _year = (short)year;
             _month = (byte)month;
             _dayOfMonth = (byte)dayOfMonth;
+            _milliseconds = (((hour * 10) + minute) * 100 + second) * 1000 + millisecond;
             var jd = Fourmilab.Calendar.french_revolutionary_to_jd(year, (int)month, dayOfMonth / 10 + 1, _dayOfMonth % 10);
             DateTime = Add(DateTimeUtility.FromJulianDate(jd), hour, minute, second, millisecond, kind);
         }
@@ -135,6 +139,7 @@ namespace FrenchRepublicanCalendar
             _year = (short)year;
             _month = (byte)month;
             _dayOfMonth = (byte)((int)dayOfDecade + (decade - 1) * 10);
+            _milliseconds = (((hour * 10) + minute) * 100 + second) * 1000 + millisecond;
             var jd = Fourmilab.Calendar.french_revolutionary_to_jd(year, (int)month, decade, (int)dayOfDecade);
             DateTime = Add(DateTimeUtility.FromJulianDate(jd), hour, minute, second, millisecond, kind);
         }
@@ -148,6 +153,7 @@ namespace FrenchRepublicanCalendar
             _year = (short)year;
             _month = (byte)month;
             _dayOfMonth = (byte)dayOfSansCulottide;
+            _milliseconds = (((hour * 10) + minute) * 100 + second) * 1000 + millisecond;
             var jd = Fourmilab.Calendar.french_revolutionary_to_jd(year, 13, 0, (int)dayOfSansCulottide);
             DateTime = Add(DateTimeUtility.FromJulianDate(jd), hour, minute, second, millisecond, kind);
         }
@@ -204,8 +210,8 @@ namespace FrenchRepublicanCalendar
             if (format == "F") return ToString("dddd d MMMM yyyy hh:mm:ss tt", formatProvider);
             //if (format == "g") return ToString("dd/MM/yyyy hh:mm tt", formatProvider);
             //if (format == "G") return ToString("dd/MM/yyyy hh:mm:ss tt", formatProvider);
-            if (format == "g") return ToString(@"dddd, d MMMM \a\n YU, HH:mm", formatProvider);
-            if (format == "G") return ToString(@"dddd, d MMMM \a\n YU, HH:mm:ss", formatProvider);
+            if (format == "g") return ToString(@"dddd, d MMMM \a\n YU, H:mm", formatProvider);
+            if (format == "G") return ToString(@"dddd, d MMMM \a\n YU, H:mm:ss", formatProvider);
             if (format == "m") return ToString("d MMMM", formatProvider);
             if (format == "o") return ToString("yyyy-MM-ddTHH:mm:ss.fffffff", formatProvider);
             if (format == "R") return ToString("ddd, dd MMM yyyy HH:mm:ss", formatProvider); // Sun, 15 Jun 2008 21:15:07 GMT
@@ -242,13 +248,24 @@ namespace FrenchRepublicanCalendar
                     stringBuilder.Append(DayOfSansCulottide.HasValue ? GetShortLiteral(DayOfSansCulottide.Value) : GetShortLiteral(DayOfDecade.Value));
                 else if (Capture(format, "dd", ref index)) stringBuilder.AppendFormat("{0:D2}", DayOfMonth);
                 else if (Capture(format, "d", ref index)) stringBuilder.Append(DayOfMonth);
+                else if (Capture(format, "hh", ref index)) stringBuilder.AppendFormat("{0:D2}", Hour);
+                else if (Capture(format, "h", ref index)) stringBuilder.Append(Hour);
+                else if (Capture(format, "HH", ref index)) stringBuilder.AppendFormat("{0:D2}", Hour);
+                else if (Capture(format, "H", ref index)) stringBuilder.Append(Hour);
+                else if (Capture(format, "mm", ref index)) stringBuilder.AppendFormat("{0:D2}", Minute);
+                else if (Capture(format, "m", ref index)) stringBuilder.Append(Minute);
+                else if (Capture(format, "ss", ref index)) stringBuilder.AppendFormat("{0:D2}", Second);
+                else if (Capture(format, "s", ref index)) stringBuilder.Append(Second);
+                else if (Capture(format, "fffffff", ref index)) stringBuilder.AppendFormat("{0:D7}", Millisecond * 10000);
+                else if (Capture(format, "ffffff", ref index)) stringBuilder.AppendFormat("{0:D6}", Millisecond * 1000);
+                else if (Capture(format, "fffff", ref index)) stringBuilder.AppendFormat("{0:D5}", Millisecond * 100);
+                else if (Capture(format, "ffff", ref index)) stringBuilder.AppendFormat("{0:D4}", Millisecond * 10);
+                else if (Capture(format, "fff", ref index)) stringBuilder.AppendFormat("{0:D3}", Millisecond);
+                else if (Capture(format, "ff", ref index)) stringBuilder.AppendFormat("{0:D2}", Millisecond / 10);
+                else if (Capture(format, "f", ref index)) stringBuilder.AppendFormat("{0:D1}", Millisecond / 100);
                 else if (CaptureAny(format, ref index, out var captured,
-                    "fffffff", "ffffff", "fffff", "ffff", "fff", "ff", "f",
                     "FFFFFFF", "FFFFFF", "FFFFF", "FFFF", "FFF", "FF", "F",
-                    "hh", "h", "HH", "H",
                     "K",
-                    "mm", "m",
-                    "ss", "s",
                     "tt", "t",
                     "zzz", "zz", "z"))
                     stringBuilder.Append(DateTime.ToString(" " + captured).Substring(1));
