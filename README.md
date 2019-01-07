@@ -1,6 +1,6 @@
 # French republican calendar
 
-This is probably totally pointless. I did this for fun.  
+This is probably totally pointless. I did it for fun.  
 Available as a [![NuGet Status](http://img.shields.io/nuget/v/FrenchRepublicanCalendar.svg?style=flat-square)](https://www.nuget.org/packages/FrenchRepublicanCalendar) package.
 
 ## How it works
