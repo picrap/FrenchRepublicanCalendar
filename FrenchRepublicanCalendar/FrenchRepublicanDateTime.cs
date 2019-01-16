@@ -69,27 +69,27 @@ namespace FrenchRepublicanCalendar
         /// <summary>
         ///     Gets the hour (0-9)
         /// </summary>
-        public int Hour => (int)(_ticks / 10000 / 1000 / 100 / 100 % 10);
+        public int Hour => (int)(_ticks / 8640 / 1000 / 100 / 100 % 10);
 
         /// <summary>
         ///     Gets the minute (0-99)
         /// </summary>
-        public int Minute => (int)(_ticks / 10000 / 1000 / 100 % 100);
+        public int Minute => (int)(_ticks / 8640 / 1000 / 100 % 100);
 
         /// <summary>
         ///     Gets the second (0-99)
         /// </summary>
-        public int Second => (int)(_ticks / 10000 / 1000 % 100);
+        public int Second => (int)(_ticks / 8640 / 1000 % 100);
 
         /// <summary>
         ///     Gets the millisecond (0-999)
         /// </summary>
-        public int Millisecond => (int)(_ticks / 10000 % 1000);
+        public int Millisecond => (int)(_ticks / 8640 % 1000);
 
         /// <summary>
         ///     Get the kind
         /// </summary>
-        public DateTimeKind Kind => (DateTimeKind)(_ticks / 10000 / 1000 / 100 / 100 / 10 % 10);
+        public DateTimeKind Kind => (DateTimeKind)(_ticks / 8640 / 1000 / 100 / 100 / 10 % 10);
 
         /// <summary>
         ///     Gets the corresponding <see cref="DateTime" />
@@ -100,7 +100,7 @@ namespace FrenchRepublicanCalendar
             {
                 var jd = Fourmilab.Calendar.french_revolutionary_to_jd(Year, (int)Month, Decade, DayOfMonth % 10);
                 var date = GetDateTimeFromJulianDate(jd);
-                var ticks = _ticks % (10L * 100 * 100 * 1000 * 10000);
+                var ticks = _ticks % (10L * 100 * 100 * 1000 * 8640);
                 var dateTime = new DateTime(date.Ticks + ticks, Kind);
                 return dateTime;
             }
@@ -117,7 +117,7 @@ namespace FrenchRepublicanCalendar
             _year = (short)d[0];
             _month = (byte)d[1];
             _dayOfMonth = (byte)(d[3] + (d[2] - 1) * 10);
-            _ticks = dateTime.TimeOfDay.Ticks + (long)dateTime.Kind * 10 * 100 * 100 * 1000 * 10000;
+            _ticks = dateTime.TimeOfDay.Ticks + (long)dateTime.Kind * 10 * 100 * 100 * 1000 * 8640;
         }
 
         /// <summary>
@@ -129,7 +129,7 @@ namespace FrenchRepublicanCalendar
             _year = (short)year;
             _month = (byte)month;
             _dayOfMonth = (byte)dayOfMonth;
-            _ticks = ((((((long)kind * 10 + hour) * 10) + minute) * 100 + second) * 1000 + millisecond) * 10000;
+            _ticks = ((((((long)kind * 10 + hour) * 10) + minute) * 100 + second) * 1000 + millisecond) * 8640;
         }
 
         /// <summary>
@@ -141,7 +141,7 @@ namespace FrenchRepublicanCalendar
             _year = (short)year;
             _month = (byte)month;
             _dayOfMonth = (byte)((int)dayOfDecade + (decade - 1) * 10);
-            _ticks = ((((((long)kind * 10 + hour) * 10) + minute) * 100 + second) * 1000 + millisecond) * 10000;
+            _ticks = ((((((long)kind * 10 + hour) * 10) + minute) * 100 + second) * 1000 + millisecond) * 8640;
         }
 
         /// <summary>
@@ -153,7 +153,7 @@ namespace FrenchRepublicanCalendar
             _year = (short)year;
             _month = (byte)month;
             _dayOfMonth = (byte)dayOfSansCulottide;
-            _ticks = ((((((long)kind * 10 + hour) * 10) + minute) * 100 + second) * 1000 + millisecond) * 10000;
+            _ticks = ((((((long)kind * 10 + hour) * 10) + minute) * 100 + second) * 1000 + millisecond) * 8640;
         }
 
         private static double GetJulianDate(DateTime dateTime)

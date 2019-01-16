@@ -17,7 +17,7 @@ namespace FrenchRepublicanCalendarTest
         {
             var d = new FrenchRepublicanDateTime(new DateTime(2019, 1, 6, 15, 53, 12, DateTimeKind.Local));
             var l = d.ToString();
-            Assert.AreEqual("Septidi, 17 Nivôse an ⅭⅭⅩⅩⅦ, 5:71:92", l);
+            Assert.AreEqual("Septidi, 17 Nivôse an ⅭⅭⅩⅩⅦ, 6:61:94", l);
         }
 
         [TestMethod]
@@ -25,7 +25,7 @@ namespace FrenchRepublicanCalendarTest
         {
             var d = new FrenchRepublicanDateTime(new DateTime(2019, 1, 6, 15, 53, 12, DateTimeKind.Local));
             var l = d.ToString("o");
-            Assert.AreEqual("0227-04-17T05:71:92.0000000", l);
+            Assert.AreEqual("0227-04-17T06:61:94.4440000", l);
         }
 
         [TestMethod]
