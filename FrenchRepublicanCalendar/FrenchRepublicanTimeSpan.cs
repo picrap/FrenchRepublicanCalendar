@@ -12,6 +12,55 @@ namespace FrenchRepublicanCalendar
     public struct FrenchRepublicanTimeSpan
     {
         /// <summary>
+        /// Ticks per millisecond
+        /// </summary>
+        /// <remarks>The amount of ticks per day is the same as in gregorian calendar,
+        /// however the base unit, the second, is different</remarks>
+        public const long TicksPerMillisecond = 8640L;
+
+        /// <summary>
+        /// Gets the ticks per republican calendar seconds
+        /// </summary>
+        public const long TicksPerSecond = TicksPerMillisecond * MillisecondsPerSecond;
+
+        /// <summary>
+        /// Gets the ticks per republican calendar minute
+        /// </summary>
+        public const long TicksPerMinute = TicksPerSecond * SecondsPerMinute;
+
+        /// <summary>
+        /// Gets the ticks per republican calendar hour
+        /// </summary>
+        public const long TicksPerHour = TicksPerMinute * MinutesPerHour;
+
+        /// <summary>
+        /// Gets the ticks per republican calendar day
+        /// </summary>
+        /// <remarks>This is the same value as in gregorian calendar</remarks>
+        public const long TicksPerDay = TicksPerHour * HoursPerDay;
+
+        /// <summary>
+        /// Gets the milliseconds per second
+        /// </summary>
+        public const int MillisecondsPerSecond = 1000;
+
+        /// <summary>
+        /// Gets the number of seconds per minutes
+        /// </summary>
+        /// <remarks>Rights, those guys where fucked up</remarks>
+        public const int SecondsPerMinute = 100;
+
+        /// <summary>
+        /// Gets the number of minutes per hour
+        /// </summary>
+        public const int MinutesPerHour = 100;
+
+        /// <summary>
+        /// Get the number of hours per day
+        /// </summary>
+        public const int HoursPerDay = 10;
+
+        /// <summary>
         /// Gets the ticks
         /// </summary>
         public long Ticks { get; }
