@@ -6,9 +6,9 @@ Available as a [![NuGet Status](http://img.shields.io/nuget/v/FrenchRepublicanCa
 ## How it works
 
 The package exposes two main classes:
-* `FrenchRepublicanDateTime`, a `DateTime` with extra properties.
+* `FrenchRepublicanDateTime`, a `DateTime` that exposes day, month and year (among others) of French Republican calendar.
+* `FrenchRepublicanTimeSpan`, a `TimeSpan` that works with 10 hours a day, 100 minutes an hour and 100 seconds a minute. Right, French Republican seconds are not the same as our seconds. Ils sont fous ces français.
 * `FrenchRepublicanCalendar`, a `Calendar` implementation for French Republican calendar.
-* `FrenchRepublicanTimeSpan`, a `TimeSpan` implementation for French Republican calendar.
 
 ## More about the French republican calender
 Documentation and code come from https://www.fourmilab.ch/documents/calendar/  
