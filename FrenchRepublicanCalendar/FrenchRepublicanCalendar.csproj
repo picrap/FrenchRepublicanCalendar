@@ -1,21 +1,21 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <Version>0.1</Version>
+    <TargetFrameworks>net40;netstandard2.0</TargetFrameworks>
+    <Version>1.0.1</Version>
     <Authors>picrap</Authors>
-    <PackageLicenseUrl>https://raw.githubusercontent.com/picrap/FrenchRepublicanCalendar/master/LICENSE</PackageLicenseUrl>
+    <PackageLicenseUrl>https://github.com/picrap/FrenchRepublicanCalendar/blob/master/LICENSE</PackageLicenseUrl>
     <PackageProjectUrl>https://github.com/picrap/FrenchRepublicanCalendar</PackageProjectUrl>
-    <RepositoryType>https://github.com/picrap/FrenchRepublicanCalendar.git</RepositoryType>
+    <RepositoryType>git</RepositoryType>
     <PackageTags>french republican calendar</PackageTags>
-    <Description>Provides date time manipulation for French republican calendar.</Description>
+    <Description>Vive la révolution! A few classes to convert from and to French republican calendar (that existed between 1792 and 1806).</Description>
   </PropertyGroup>
   <PropertyGroup>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateAssemblyInfo>true</GenerateAssemblyInfo>
   </PropertyGroup> 
 
   <ItemGroup>
-    <PackageReference Include="Roman-Numerals" Version="1.0.0" />
+    <PackageReference Include="Roman-Numerals" Version="1.0.3" />
   </ItemGroup>
 
   <PropertyGroup>
@@ -26,6 +26,9 @@
   <PropertyGroup>
     <TransformOnBuild>true</TransformOnBuild>
     <PackageId>FrenchRepublicanCalendar</PackageId>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageIconUrl>https://raw.githubusercontent.com/picrap/FrenchRepublicanCalendar/master/Icon/Calendar.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/picrap/FrenchRepublicanCalendar.git</RepositoryUrl>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DocumentationFile>bin\Release\FrenchRepublicanCalendar.xml</DocumentationFile>
@@ -34,29 +37,5 @@
     <DocumentationFile>bin\Debug\FrenchRepublicanCalendar.xml</DocumentationFile>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Update="Properties\ProductInfo.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>ProductInfo.cs</LastGenOutput>
-    </None>
-    <Compile Update="Properties\ProductInfo.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>ProductInfo.tt</DependentUpon>
-    </Compile>
-    <None Update="FrenchRepublicanCalendar.nuspec">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>FrenchRepublicanCalendar.tt</DependentUpon>
-    </None>
-    <None Update="FrenchRepublicanCalendar.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>FrenchRepublicanCalendar.nuspec</LastGenOutput>
-    </None>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
-  </ItemGroup>
   
 </Project>
