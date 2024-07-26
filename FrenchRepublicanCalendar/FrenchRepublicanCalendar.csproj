@@ -15,7 +15,7 @@
   </PropertyGroup> 
 
   <ItemGroup>
-    <PackageReference Include="Roman-Numerals" Version="1.0.3" />
+    <PackageReference Include="Roman-Numerals" Version="2.0.1" />
   </ItemGroup>
 
   <PropertyGroup>
